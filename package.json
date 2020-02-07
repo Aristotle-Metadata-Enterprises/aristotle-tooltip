@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/issues"
   },
-  "homepage": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip#readme"
+  "homepage": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip#readme",
+  "dependencies": {
+    "tippy.js": "^5.2.0"
+  }
 }
