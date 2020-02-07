@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "tippy.js": "^5.2.0"
   }
 }
