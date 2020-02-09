@@ -8,7 +8,7 @@ let baseUrl = null;
 let elements = document.querySelectorAll('[data-aristotle-id]');
 
 // Add an tippy for each element that has an attached aristotle id
-for (let element in elements) {
+for (let element of elements) {
     let aristotleId = element.dataset.aristotleId;
     tippy(element, {
         content: 'Loading...',
