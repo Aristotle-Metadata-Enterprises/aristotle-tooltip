@@ -7,10 +7,11 @@ export default function processRequest(aristotleId, baseUrl, tippyInstance) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     axios.get(url)
         .then((response) => {
-            let itemName = response.data['name']
-            let shortDefinition = response.data['short_definition']
-            // let truncatedContent = truncateByWords(shortDefinition, 15)
-            let contentWithHtml = addHtmlComponents(itemName, shortDefinition, aristotleId)
+            tippyInstance.name = response.data['name']
+            tippyInstance.definition = response.data['definition']
+            tippyInstance.shortDefinition = response.data['short_definition']
+            tippyInstance.aristotleId = aristotleId
+            let contentWithHtml = addHtmlComponents(tippyInstance)
             tippyInstance.setContent(contentWithHtml);
             tippyInstance._permanent_failure = false;
             tippyInstance._isFetching = false;
@@ -76,14 +77,26 @@ function truncateByWords(content, numberOfWords) {
     return content.split(" ").splice(0, numberOfWords).join(" ");
 }
 
-function addHtmlComponents(itemName, content, aristotleId) {
-    let myItemName = "<strong>" + itemName + "</strong>"
-    let title = myItemName + " <a href='http://localhost:8000/item/" + aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    return title.concat(content.concat("<br><a id='my-test' href=#>...see more</a>"))
+function addHtmlComponents(tippyInstance) {
+    let documentFragment = document.createDocumentFragment();
+    let strongElement = document.createElement("strong");
+    strongElement.innerHTML = tippyInstance.name
+    let fontawesomeElement = document.createElement('a')
+    fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
+    fontawesomeElement.classList.add("fa", "fa-external-link-square")
+    let br = document.createElement('br')
+
+    documentFragment.appendChild(strongElement)
+    documentFragment.appendChild(fontawesomeElement)
+    documentFragment.appendChild(br)
+    // let myItemName = "<strong>" + tippyInstance.name + "</strong>"
+    // let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
+    // return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
+    return documentFragment.outerHTML
 }
 document.addEventListener('click',function(e){
     if(e.target && e.target.id == 'my-test'){
-        let instance = e.target.parentElement.parentElement.parentElement._tippy
+        let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
         instance.setContent("Hello world")
         //do something
     }
