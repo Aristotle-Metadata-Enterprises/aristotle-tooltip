@@ -4,7 +4,8 @@
   "description": "Aristotle Tooltip: add Aristotle functionality to any website!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,7 @@
   },
   "keywords": [],
   "author": "",
+  "private": true,
   "license": "Proprietary License",
   "bugs": {
     "url": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/issues"
@@ -20,5 +22,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "tippy.js": "^5.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
