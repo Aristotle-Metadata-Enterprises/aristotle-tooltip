@@ -1,4 +1,9 @@
 import tippy from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
+import 'tippy.js/themes/light-border.css';
+import 'tippy.js/themes/material.css';
+import 'tippy.js/themes/translucent.css';
 import axios from 'axios';
 
 let baseUrl = null;
