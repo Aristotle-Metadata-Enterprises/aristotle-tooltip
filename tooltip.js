@@ -16,12 +16,11 @@ export default function processRequest(aristotleId, baseUrl, tippyInstance) {
             tippyInstance.definition = response.data['definition']
             tippyInstance.shortDefinition = response.data['short_definition']
             tippyInstance.aristotleId = aristotleId
-            let contentWithHtml = addHtmlComponents(tippyInstance)
-            tippyInstance.setContent(contentWithHtml);
             tippyInstance._permanent_failure = false;
             tippyInstance._isFetching = false;
             tippyInstance._isLoadedSuccessfully = true;
-            this.permanent_failure = false;
+            let contentWithHtml = addHtmlComponents(tippyInstance)
+            tippyInstance.setContent(contentWithHtml);
         }).catch((error) => {
             if (error.response) {
                 //  The request was made and the server responded with a status code
@@ -41,9 +40,20 @@ export default function processRequest(aristotleId, baseUrl, tippyInstance) {
                     tippyInstance._permanent_failure = false;
                 }
             } else if (error.request) {
-                // The request was made but no response was received
-                tippyInstance.setContent("ERROR: No response was received from the server. Please try again later");
+                // // The request was made but no response was received
+                // tippyInstance.setContent("ERROR: No response was received from the server. Please try again later");
+                // tippyInstance._permanent_failure = false;
+
+                tippyInstance.name = "THIS IS MY A NAME"
+                tippyInstance.definition = "This is a Testing definition."
+                tippyInstance.shortDefinition = "This is a Testing short definition. This is a Testing short definition. This is a Testing short definition."
+                tippyInstance.aristotleId = aristotleId
                 tippyInstance._permanent_failure = false;
+                tippyInstance._isFetching = false;
+                tippyInstance._isLoadedSuccessfully = true;
+                let contentWithHtml = addHtmlComponents(tippyInstance)
+                tippyInstance.setContent(contentWithHtml);
+
             }
         });
 }
@@ -55,7 +65,7 @@ let elements = document.querySelectorAll('[data-aristotle-id]');
 for (let element of elements) {
     let aristotleId = element.dataset.aristotleId;
     tippy(element, {
-        content: 'Loading... <button id="my-test-button">hello world</button>',
+        content: 'Loading...',
         flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
         interactive: true,
         theme: 'light-border',
@@ -83,7 +93,6 @@ function truncateByWords(content, numberOfWords) {
 }
 
 function addHtmlComponents(tippyInstance) {
-    let documentFragment = document.createDocumentFragment();
     let strongElement = document.createElement("strong");
     strongElement.innerHTML = tippyInstance.name
     let fontawesomeElement = document.createElement('a')
@@ -91,13 +100,9 @@ function addHtmlComponents(tippyInstance) {
     fontawesomeElement.classList.add("fa", "fa-external-link-square")
     let br = document.createElement('br')
 
-    documentFragment.appendChild(strongElement)
-    documentFragment.appendChild(fontawesomeElement)
-    documentFragment.appendChild(br)
-    // let myItemName = "<strong>" + tippyInstance.name + "</strong>"
-    // let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    // return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
-    return documentFragment.outerHTML
+    let myItemName = "<strong>" + tippyInstance.name + "</strong>"
+    let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
+    return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
 }
 document.addEventListener('click',function(e){
     if(e.target && e.target.id == 'my-test'){
