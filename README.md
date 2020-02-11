@@ -5,6 +5,7 @@
   <h1>Aristotle Tooltip</h1>
   <p>A highly customisable and easy to use way to insert Aristotle powered definitions to your website!</p>
 </div>
+
 ## Features  
   
 ## Quick Start
