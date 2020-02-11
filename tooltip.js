@@ -4,23 +4,21 @@ import 'tippy.js/themes/light.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/themes/material.css';
 import 'tippy.js/themes/translucent.css';
+
 import axios from 'axios';
 
 let baseUrl = null;
 
-export default function processRequest(aristotleId, baseUrl, tippyInstance) {
+function processRequest(aristotleId, baseUrl, tippyInstance) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     axios.get(url)
         .then((response) => {
-            tippyInstance.name = response.data['name']
-            tippyInstance.definition = response.data['definition']
-            tippyInstance.shortDefinition = response.data['short_definition']
-            tippyInstance.aristotleId = aristotleId
             tippyInstance._permanent_failure = false;
             tippyInstance._isFetching = false;
             tippyInstance._isLoadedSuccessfully = true;
-            let contentWithHtml = addHtmlComponents(tippyInstance)
+            let contentWithHtml = addHtmlComponents(response.data['name'], response.data['short_definition'], aristotleId)
             tippyInstance.setContent(contentWithHtml);
+
         }).catch((error) => {
             if (error.response) {
                 //  The request was made and the server responded with a status code
@@ -82,7 +80,7 @@ for (let element of elements) {
             }
             instance._isFetching = true;
 
-            processRequest(aristotleId, 'http://localhost:8000', instance)  // TODO: Change this later.
+            processRequest(aristotleId, 'https://registry.aristotlemetadata.com', instance)  // TODO: Change this later.
 
         }
     });
@@ -92,20 +90,20 @@ function truncateByWords(content, numberOfWords) {
     return content.split(" ").splice(0, numberOfWords).join(" ");
 }
 
-function addHtmlComponents(tippyInstance) {
-    let strongElement = document.createElement("strong");
-    strongElement.innerHTML = tippyInstance.name
-    let fontawesomeElement = document.createElement('a')
-    fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
-    fontawesomeElement.classList.add("fa", "fa-external-link-square")
-    let br = document.createElement('br')
+function addHtmlComponents(itemName, definition, aristotleId) {
+    // let strongElement = document.createElement("strong");
+    // strongElement.innerHTML = tippyInstance.name
+    // let fontawesomeElement = document.createElement('a')
+    // fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
+    // fontawesomeElement.classList.add("fa", "fa-external-link-square")
+    // let br = document.createElement('br')
 
-    let myItemName = "<strong>" + tippyInstance.name + "</strong>"
-    let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
+    let myItemName = "<strong>" + itemName + "</strong>"
+    let title = myItemName + " <a href='http://localhost:8000/item/" + aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
+    return title.concat(definition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
 }
-document.addEventListener('click',function(e){
-    if(e.target && e.target.id == 'my-test'){
+document.addEventListener('click',function(e) {
+    if(e.target && e.target.id == 'my-test') {
         let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
         instance.setContent("Hello world")
         //do something
