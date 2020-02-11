@@ -7,6 +7,9 @@ import 'tippy.js/themes/translucent.css';
 
 import axios from 'axios';
 
+import './tooltip.css';
+
+
 function makeRequest(aristotleId, baseUrl) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     return axios.get(url);
@@ -64,13 +67,16 @@ function createTippyElements(baseURL) {
                     // The response was successful
                     let name = response.data['name'];
                     let shortDefinition = response.data['short_definition'];
-                    let requestFailed = false;
+
+                    let itemLink = getItemLink(baseURL, aristotleId);
+                    instance.setContent(makeHTMLContent(name, shortDefinition, itemLink));
+                    instance._hasSuceeded = true;
 
                 }).catch((error) => {
                     // The response failed
-                    let requestFailed = true;
                     let errorMsg = handleError(error);
-
+                    instance.setContent(errorMsg);
+                    instance._hasFailed = true;
                 });
                 instance._isFetching = false;
             }
@@ -78,41 +84,33 @@ function createTippyElements(baseURL) {
     }
 }
 
-function addHtmlComponents(content, definition, aristotleId) {
+function getItemLink(baseUrl, aristotleId) {
+    return baseUrl + '/item/' + aristotleId + '/';
 
-    // Remove these when Dylan is finished with the request:
-    content = {}
-    content.name = "MY TESTING TITLE"
-    content.definition = "My Testing Definition."
+}
 
-    let div = document.createElement('div');
-    let div2 = document.createElement('div')
-    let strongElement = document.createElement("strong");
-    let titleTextNode = document.createTextNode(content.name)
-    let definitionTextNode = document.createTextNode(content.definition)
-    let fontawesomeElement = document.createElement('a')
-    let br = document.createElement('br')
-    let br2 = document.createElement('br')
-    let a = document.createElement('a')
-    let seeMoreTextNode = document.createTextNode("...see more")
-    a.href = "http://localhost:8000/item/" + aristotleId + "/"
-    a.appendChild(seeMoreTextNode)
+function makeHTMLContent(name, shortDefinition, itemLink) {
+    let parentDiv = document.createElement('div');
+    let titleElement = document.createElement("strong");
+    let fontawesomeElement = document.createElement('a');
+    let seeMoreLink = document.createElement('a');
 
-    strongElement.appendChild(titleTextNode)
+    seeMoreLink.href = itemLink;
+    seeMoreLink.appendChild(document.createTextNode("...see more"));
+    seeMoreLink.classList.add("see-more-link");
 
-    fontawesomeElement.href = "http://localhost:8000/item/" + "1" + "/"
-    fontawesomeElement.classList.add("fa", "fa-external-link-square")
+    titleElement.appendChild(document.createTextNode(name + ": "));
 
-    div2.style.cssText = "display : flex; justify-content : flex-end;";
-    div2.appendChild(a)
+    fontawesomeElement.href = itemLink;
+    fontawesomeElement.classList.add("fa", "fa-external-link-square");
 
-    div.appendChild(strongElement)
-    div.appendChild(fontawesomeElement)
-    div.appendChild(br)
-    div.appendChild(definitionTextNode)
-    div.appendChild(br2)
-    div.appendChild(div2)
-    return div.innerHTML
+    parentDiv.append(titleElement);
+    parentDiv.appendChild(fontawesomeElement);
+    parentDiv.appendChild(document.createTextNode(shortDefinition));
+    parentDiv.appendChild(seeMoreLink);
+
+    return parentDiv.innerHTML;
+
 }
 
 // Event listener to
