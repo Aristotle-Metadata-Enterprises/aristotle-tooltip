@@ -75,6 +75,9 @@ function createTippyElements(baseURL) {
                 }
                 else { // The request was a success
 
+                    let content = addHtmlComponents(content.name, content.shortDefinition, aristotleId)
+
+                    instance.setContent()
 
                 }
             }
