@@ -15,12 +15,14 @@ function makeRequest(aristotleId, baseUrl) {
         .then((response) => {
             item.name = response.data['name']
             item.shortDefinition = response.data['short_definition']
+            this.failure = false;
 
         }).catch((error) => {
         if (error.response) {
             //  The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             let status_code = error.response.status;
+            this.failure = true;
 
             if (status_code === 401 || status_code === 403) {
                 item.shortDefinition("ERROR: This item is not publicly viewable");
@@ -28,16 +30,13 @@ function makeRequest(aristotleId, baseUrl) {
             } else if (String(status_code).startsWith('5')) {
                 // It's a 500 failure
                 item.shortDefinition("ERROR: The server is currently experiencing errors. Please try again later.");
-                item._permanent_failure = false;
             } else {
                 // Any other failure
                 item.shortDefinition("ERROR: The server cannot process your request. Please try again later.");
-                item._permanent_failure = false;
             }
         } else if (error.request) {
             // The request was made but no response was received
             item.shortDefinition("ERROR: No response was received from the server. Please try again later");
-            item._permanent_failure = false;
         }
     });
     return item;
@@ -59,22 +58,24 @@ function createTippyElements(baseURL) {
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
-                instance._permanent_failure = null;
+                instance._hasFailed = null;
+                instance._hasSuceeded = null;
             },
             onShow(instance) {
-                if (instance._isFetching || instance._permanent_failure) {
+                if (instance._isFetching || instance._hasFailed  || instance._hasSuceeded) {
                     return;
                 }
                 instance._isFetching = true;
                 let content = makeRequest(aristotleId, baseURL);
                 instance._isFetching = false
 
-                if (content._permanent_failure === true) {
+                if (content.failure === true) {
                     instance.setContent(content.shortDefinition);
-                    instance._permanent_failure = true;
+                    instance._hasFailed = true;
                 }
                 else { // The request was a success
                     // TODO: francisco -- call html generation code here
+                    instance._hasSuceeded = true;
 
                 }
             }
