@@ -74,7 +74,10 @@ function createTippyElements(baseURL) {
                     instance._hasFailed = true;
                 }
                 else { // The request was a success
-                    // TODO: francisco -- call html generation code here
+
+                    let htmlContent = addHtmlComponents(content, aristotleId)
+
+                    instance.setContent(htmlContent)
                     instance._hasSuceeded = true;
 
                 }
@@ -83,18 +86,43 @@ function createTippyElements(baseURL) {
     }
 }
 
-function addHtmlComponents(itemName, definition, aristotleId) {
-    // let strongElement = document.createElement("strong");
-    // strongElement.innerHTML = tippyInstance.name
-    // let fontawesomeElement = document.createElement('a')
-    // fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
-    // fontawesomeElement.classList.add("fa", "fa-external-link-square")
-    // let br = document.createElement('br')
+function addHtmlComponents(content, definition, aristotleId) {
 
-    let myItemName = "<strong>" + itemName + "</strong>"
-    let title = myItemName + " <a href='http://localhost:8000/item/" + aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    return title.concat(definition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
+    // Remove these when Dylan is finished with the request:
+    content = {}
+    content.name = "MY TESTING TITLE"
+    content.definition = "My Testing Definition."
+
+    let div = document.createElement('div');
+    let div2 = document.createElement('div')
+    let strongElement = document.createElement("strong");
+    let titleTextNode = document.createTextNode(content.name)
+    let definitionTextNode = document.createTextNode(content.definition)
+    let fontawesomeElement = document.createElement('a')
+    let br = document.createElement('br')
+    let br2 = document.createElement('br')
+    let a = document.createElement('a')
+    let seeMoreTextNode = document.createTextNode("...see more")
+    a.href = "http://localhost:8000/item/" + aristotleId + "/"
+    a.appendChild(seeMoreTextNode)
+
+    strongElement.appendChild(titleTextNode)
+
+    fontawesomeElement.href = "http://localhost:8000/item/" + "1" + "/"
+    fontawesomeElement.classList.add("fa", "fa-external-link-square")
+
+    div2.style.cssText = "display : flex; justify-content : flex-end;";
+    div2.appendChild(a)
+
+    div.appendChild(strongElement)
+    div.appendChild(fontawesomeElement)
+    div.appendChild(br)
+    div.appendChild(definitionTextNode)
+    div.appendChild(br2)
+    div.appendChild(div2)
+    return div.innerHTML
 }
+
 document.addEventListener('click',function(e) {
     if(e.target && e.target.id == 'my-test') {
         let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
