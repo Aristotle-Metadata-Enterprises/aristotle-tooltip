@@ -8,6 +8,7 @@ import 'tippy.js/themes/translucent.css';
 import axios from 'axios';
 
 import './tooltip.css';
+import {getItemLink} from './utils.js'
 
 
 function makeRequest(aristotleId, baseUrl) {
@@ -39,7 +40,7 @@ function handleError(error) {
     return errorMsg;
 }
 
-function createTippyElements(baseURL) {
+function createTippyElements(baseURL, theme) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
 
@@ -50,7 +51,8 @@ function createTippyElements(baseURL) {
             content: 'Loading...',
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
-            theme: 'light-border',
+            duration: 500,
+            theme: 'material',
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -84,12 +86,9 @@ function createTippyElements(baseURL) {
     }
 }
 
-function getItemLink(baseUrl, aristotleId) {
-    return baseUrl + '/item/' + aristotleId + '/';
-
-}
-
 function makeHTMLContent(name, shortDefinition, itemLink) {
+    // Build HTML content for  display in text
+
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
     let fontawesomeElement = document.createElement('a');
@@ -113,7 +112,6 @@ function makeHTMLContent(name, shortDefinition, itemLink) {
 
 }
 
-// Event listener to
 document.addEventListener('click', function (e) {
     if (e.target && e.target.id == 'my-test') {
         let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
@@ -122,4 +120,7 @@ document.addEventListener('click', function (e) {
     }
 });
 
-createTippyElements('https://registry.aristotlemetadata.com');
+export default function addAristotle(options) {
+    // This the main route through which users will interact with.
+
+}
