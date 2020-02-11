@@ -9,39 +9,32 @@ import axios from 'axios';
 
 function makeRequest(aristotleId, baseUrl) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
-    let item = {};
-
-    axios.get(url)
-        .then((response) => {
-            item.name = response.data['name']
-            item.shortDefinition = response.data['short_definition']
-            this.failure = false;
-
-        }).catch((error) => {
-        if (error.response) {
-            //  The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            let status_code = error.response.status;
-            this.failure = true;
-
-            if (status_code === 401 || status_code === 403) {
-                item.shortDefinition("ERROR: This item is not publicly viewable");
-                item._permanent_failure = true;
-            } else if (String(status_code).startsWith('5')) {
-                // It's a 500 failure
-                item.shortDefinition("ERROR: The server is currently experiencing errors. Please try again later.");
-            } else {
-                // Any other failure
-                item.shortDefinition("ERROR: The server cannot process your request. Please try again later.");
-            }
-        } else if (error.request) {
-            // The request was made but no response was received
-            item.shortDefinition("ERROR: No response was received from the server. Please try again later");
-        }
-    });
-    return item;
+    return axios.get(url);
 }
 
+function handleError(error) {
+    let errorMsg = '';
+
+    if (error.response) {
+        //  The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        let status_code = error.response.status;
+
+        if (status_code === 401 || status_code === 403) {
+            errorMsg = ("ERROR: This item is not publicly viewable");
+        } else if (String(status_code).startsWith('5')) {
+            // It's a 500 failure
+            errorMsg = ("ERROR: The server is currently experiencing errors. Please try again later.");
+        } else {
+            // Any other failure
+            errorMsg = ("ERROR: The server cannot process your request. Please try again later.");
+        }
+    } else if (error.request) {
+        // The request was made but no response was received
+        errorMsg = ("ERROR: No response was received from the server. Please try again later");
+    }
+    return errorMsg;
+}
 
 function createTippyElements(baseURL) {
     // Select all elements that contain an aristotle id
@@ -62,22 +55,24 @@ function createTippyElements(baseURL) {
                 instance._hasSuceeded = null;
             },
             onShow(instance) {
-                if (instance._isFetching || instance._hasFailed  || instance._hasSuceeded) {
+                if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
                     return;
                 }
                 instance._isFetching = true;
-                let content = makeRequest(aristotleId, baseURL);
-                instance._isFetching = false
 
-                if (content.failure === true) {
-                    instance.setContent(content.shortDefinition);
-                    instance._hasFailed = true;
-                }
-                else { // The request was a success
-                    // TODO: francisco -- call html generation code here
-                    instance._hasSuceeded = true;
+                makeRequest(aristotleId, baseURL).then((response) => {
+                    // The response was successful
+                    let name = response.data['name'];
+                    let shortDefinition = response.data['short_definition'];
+                    let requestFailed = false;
 
-                }
+                }).catch((error) => {
+                    // The response failed
+                    let requestFailed = true;
+                    let errorMsg = handleError(error);
+
+                });
+                instance._isFetching = false;
             }
         });
     }
@@ -95,8 +90,10 @@ function addHtmlComponents(itemName, definition, aristotleId) {
     let title = myItemName + " <a href='http://localhost:8000/item/" + aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
     return title.concat(definition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
 }
-document.addEventListener('click',function(e) {
-    if(e.target && e.target.id == 'my-test') {
+
+// Event listener to
+document.addEventListener('click', function (e) {
+    if (e.target && e.target.id == 'my-test') {
         let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
         instance.setContent("Hello world")
         //do something
