@@ -91,7 +91,7 @@ function addHtmlComponents(content, definition, aristotleId) {
     // Remove these when Dylan is finished with the request:
     content = {}
     content.name = "MY TESTING TITLE"
-    content.definition = "My Testing Definition."
+    content.definition = "My Testing Definition. My Testing Definition. My Testing Definition."
 
     let div = document.createElement('div');
     let div2 = document.createElement('div')
@@ -103,6 +103,13 @@ function addHtmlComponents(content, definition, aristotleId) {
     let br2 = document.createElement('br')
     let a = document.createElement('a')
     let seeMoreTextNode = document.createTextNode("...see more")
+    let footerDiv = document.createElement('div')
+    let footerMessage = document.createTextNode("Powered by the Aristotle Metadata Registry")
+    let smallTag = document.createElement('small')
+    smallTag.appendChild(footerMessage)
+    footerDiv.style.cssText = "background-color : #D0D1D5; display : flex; justify-content : center;";
+
+    footerDiv.appendChild(smallTag)
     a.href = "http://localhost:8000/item/" + aristotleId + "/"
     a.appendChild(seeMoreTextNode)
 
@@ -120,6 +127,8 @@ function addHtmlComponents(content, definition, aristotleId) {
     div.appendChild(definitionTextNode)
     div.appendChild(br2)
     div.appendChild(div2)
+    div.appendChild(footerDiv)
+
     return div.innerHTML
 }
 
