@@ -15,12 +15,14 @@ function makeRequest(aristotleId, baseUrl) {
         .then((response) => {
             item.name = response.data['name']
             item.shortDefinition = response.data['short_definition']
+            this.failure = false;
 
         }).catch((error) => {
         if (error.response) {
             //  The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             let status_code = error.response.status;
+            this.failure = true;
 
             if (status_code === 401 || status_code === 403) {
                 item.shortDefinition("ERROR: This item is not publicly viewable");
@@ -28,16 +30,13 @@ function makeRequest(aristotleId, baseUrl) {
             } else if (String(status_code).startsWith('5')) {
                 // It's a 500 failure
                 item.shortDefinition("ERROR: The server is currently experiencing errors. Please try again later.");
-                item._permanent_failure = false;
             } else {
                 // Any other failure
                 item.shortDefinition("ERROR: The server cannot process your request. Please try again later.");
-                item._permanent_failure = false;
             }
         } else if (error.request) {
             // The request was made but no response was received
             item.shortDefinition("ERROR: No response was received from the server. Please try again later");
-            item._permanent_failure = false;
         }
     });
     return item;
@@ -59,25 +58,27 @@ function createTippyElements(baseURL) {
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
-                instance._permanent_failure = null;
+                instance._hasFailed = null;
+                instance._hasSuceeded = null;
             },
             onShow(instance) {
-                if (instance._isFetching || instance._permanent_failure) {
+                if (instance._isFetching || instance._hasFailed  || instance._hasSuceeded) {
                     return;
                 }
                 instance._isFetching = true;
                 let content = makeRequest(aristotleId, baseURL);
                 instance._isFetching = false
 
-                if (content._permanent_failure === true) {
+                if (content.failure === true) {
                     instance.setContent(content.shortDefinition);
-                    instance._permanent_failure = true;
+                    instance._hasFailed = true;
                 }
                 else { // The request was a success
 
-                    let content = addHtmlComponents(content.name, content.shortDefinition, aristotleId)
+                    let htmlContent = addHtmlComponents(content, aristotleId)
 
-                    instance.setContent()
+                    instance.setContent(htmlContent)
+                    instance._hasSuceeded = true;
 
                 }
             }
@@ -85,29 +86,43 @@ function createTippyElements(baseURL) {
     }
 }
 
-function addHtmlComponents(itemName, definition, aristotleId) {
+function addHtmlComponents(content, definition, aristotleId) {
 
-    let documentFragment = document.createDocumentFragment();
+    // Remove these when Dylan is finished with the request:
+    content = {}
+    content.name = "MY TESTING TITLE"
+    content.definition = "My Testing Definition."
+
+    let div = document.createElement('div');
+    let div2 = document.createElement('div')
     let strongElement = document.createElement("strong");
-    strongElement.innerHTML = tippyInstance.name
+    let titleTextNode = document.createTextNode(content.name)
+    let definitionTextNode = document.createTextNode(content.definition)
     let fontawesomeElement = document.createElement('a')
-    fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
-    fontawesomeElement.classList.add("fa", "fa-external-link-square")
     let br = document.createElement('br')
+    let br2 = document.createElement('br')
+    let a = document.createElement('a')
+    let seeMoreTextNode = document.createTextNode("...see more")
+    a.href = "http://localhost:8000/item/" + aristotleId + "/"
+    a.appendChild(seeMoreTextNode)
 
-    documentFragment.appendChild(strongElement)
-    documentFragment.appendChild(fontawesomeElement)
-    documentFragment.appendChild(br)
-    // let myItemName = "<strong>" + tippyInstance.name + "</strong>"
-    // let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    // return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
-    console.log("THIS IS HAPPENING")
-    return documentFragment.outerHTML
-    // let myItemName = "<strong>" + tippyInstance.name + "</strong>"
-    // let title = myItemName + " <a href='http://localhost:8000/item/" + tippyInstance.aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
-    // return title.concat(tippyInstance.shortDefinition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
+    strongElement.appendChild(titleTextNode)
 
+    fontawesomeElement.href = "http://localhost:8000/item/" + "1" + "/"
+    fontawesomeElement.classList.add("fa", "fa-external-link-square")
+
+    div2.style.cssText = "display : flex; justify-content : flex-end;";
+    div2.appendChild(a)
+
+    div.appendChild(strongElement)
+    div.appendChild(fontawesomeElement)
+    div.appendChild(br)
+    div.appendChild(definitionTextNode)
+    div.appendChild(br2)
+    div.appendChild(div2)
+    return div.innerHTML
 }
+
 document.addEventListener('click',function(e) {
     if(e.target && e.target.id == 'my-test') {
         let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
