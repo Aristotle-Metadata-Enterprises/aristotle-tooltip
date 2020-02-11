@@ -67,27 +67,39 @@ function createTippyElements(baseURL) {
                 }
                 instance._isFetching = true;
                 let content = makeRequest(aristotleId, baseURL);
-                console.log(content);
+                instance._isFetching = false
+
+                if (content._permanent_failure === true) {
+                    instance.setContent(content.shortDefinition);
+                    instance._permanent_failure = true;
+                }
+                else { // The request was a success
+                    // TODO: francisco -- call html generation code here
+
+                }
             }
         });
     }
 }
 
-function addHtmlComponents(tippyInstance) {
-    let documentFragment = document.createDocumentFragment();
+function addHtmlComponents(itemName, definition, aristotleId) {
+    // let strongElement = document.createElement("strong");
+    // strongElement.innerHTML = tippyInstance.name
+    // let fontawesomeElement = document.createElement('a')
+    // fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
+    // fontawesomeElement.classList.add("fa", "fa-external-link-square")
+    // let br = document.createElement('br')
 
-    let strongElement = document.createElement("strong");
-    strongElement.innerHTML = tippyInstance.name
-    let fontawesomeElement = document.createElement('a')
-    fontawesomeElement.href = "http://localhost:8000/item/" + tippyInstance.aristotleId + "/"
-    fontawesomeElement.classList.add("fa", "fa-external-link-square")
-    let br = document.createElement('br')
-
-    documentFragment.appendChild(strongElement);
-    documentFragment.appendChild(fontawesomeElement);
-    documentFragment.appendChild(br);
-
-    return documentFragment.outerHTML
+    let myItemName = "<strong>" + itemName + "</strong>"
+    let title = myItemName + " <a href='http://localhost:8000/item/" + aristotleId + "/' title='Open reference in a new window' target='_blank' class='fa fa-external-link-square'></a><br>"  // TODO: CHANGE THIS LATER
+    return title.concat(definition.concat("<br><div style='display: flex; justify-content: flex-end'><a id='my-test' href=#>...see more</a></div>"))
 }
+document.addEventListener('click',function(e) {
+    if(e.target && e.target.id == 'my-test') {
+        let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
+        instance.setContent("Hello world")
+        //do something
+    }
+});
 
 createTippyElements('https://registry.aristotlemetadata.com');
