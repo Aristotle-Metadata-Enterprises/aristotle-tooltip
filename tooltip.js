@@ -163,6 +163,10 @@ function makeHTMLContent(instance) {
     instance.setContent(parentDiv)
 }
 
+/**
+ * This function
+ * @param instance
+ */
 function changeContent(instance) {
     instance._see_more = !instance._see_more;
     makeHTMLContent(instance)
