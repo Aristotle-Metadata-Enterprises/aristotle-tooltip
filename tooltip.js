@@ -11,17 +11,17 @@ import {getItemLink} from './util.js'
 
 
 function makeRequest(aristotleId, baseUrl) {
-    let url = `${baseUrl}/api/v4/item/${aristotleId}/`
+    let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     return axios.get(url)
 }
 
 function handleError(error) {
-    let errorMsg = ''
+    let errorMsg = '';
 
     if (error.response) {
         //  The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        let status_code = error.response.status
+        let status_code = error.response.status;
 
         if (status_code === 401 || status_code === 403) {
             errorMsg = ("ERROR: This item is not publicly viewable")
@@ -39,7 +39,7 @@ function handleError(error) {
     return errorMsg
 }
 
-function createTippyElements(baseURL, theme) {
+function createTippyElements(baseURL, theme, longDefinitionLength) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
 
@@ -54,40 +54,40 @@ function createTippyElements(baseURL, theme) {
             theme: 'light-border',
             onCreate(instance) {
                 // Keep track of state
-                instance._isFetching = false
-                instance._hasFailed = null
-                instance._hasSuceeded = null
+                instance._isFetching = false;
+                instance._hasFailed = null;
+                instance._hasSuceeded = null;
             },
             onShow(instance) {
                 if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
                     return
                 }
-                instance._isFetching = true
+                instance._isFetching = true;
 
                 makeRequest(aristotleId, baseURL).then((response) => {
                     // The response was successful
 
-                    let definition = response.data['definition']
-                    instance.name = response.data['name']
-                    definition = getTextUpToTag(definition, "<table>")
-                    definition = getTextUpToTag(definition, "<ul>")
-                    definition = getTextUpToTag(definition, "<ol>")
-                    definition = stripHtmlTags(definition)
-                    instance.definition = truncateText(definition, 75)
-                    instance.shortDefinition = response.data['short_definition']
-                    instance.itemLink = getItemLink(baseURL, aristotleId)
-                    instance._see_more = false
+                    let definition = response.data['definition'];
+                    instance.name = response.data['name'];
+                    definition = getTextUpToTag(definition, "<table>");
+                    definition = getTextUpToTag(definition, "<ul>");
+                    definition = getTextUpToTag(definition, "<ol>");
+                    definition = stripHtmlTags(definition);
+                    instance.definition = truncateText(definition, 75);
+                    instance.shortDefinition = response.data['short_definition'];
+                    instance.itemLink = getItemLink(baseURL, aristotleId);
+                    instance._see_more = false;
 
-                    makeHTMLContent(instance)
+                    makeHTMLContent(instance);
                     instance._hasSuceeded = true
 
                 }).catch((error) => {
                     // The response failed
-                    let errorMsg = handleError(error)
-                    instance.setContent(errorMsg)
-                    instance._hasFailed = true
+                    let errorMsg = handleError(error);
+                    instance.setContent(errorMsg);
+                    instance._hasFailed = true;
                 });
-                instance._isFetching = false
+                instance._isFetching = false;
             }
         });
     }
@@ -96,53 +96,50 @@ function createTippyElements(baseURL, theme) {
 function makeHTMLContent(instance) {
     // Build HTML content for  display in text
 
-    let parentDiv = document.createElement('div')
-    let titleElement = document.createElement("strong")
-    let fontawesomeElement = document.createElement('a')
-    let titleElementDiv = document.createElement('div')
-    let contentElementDiv = document.createElement('div')
-    let seeMoreLessLink = document.createElement('a')
-    let seeMoreDiv = document.createElement('div')
-    let hr = document.createElement('hr')
-    let footerTopDiv = document.createElement('div')
-    let footerBottomDiv = document.createElement('div')
-    let smallTagTop = document.createElement('small')
-    let sourceLink = document.createElement('a')
-    sourceLink.href = instance.itemLink
-    sourceLink.textContent = instance.itemLink
-    let smallTagBottom = document.createElement('small')
-    let img = document.createElement("img")
-    img.src = 'aris_logo_small.png'
-    smallTagTop.appendChild(document.createTextNode("Source: "))
-    smallTagTop.appendChild(sourceLink)
-    smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "))
-    footerTopDiv.appendChild(smallTagTop)
-    footerBottomDiv.appendChild(smallTagBottom)
-    footerBottomDiv.appendChild(img)
-    footerBottomDiv.classList.add('tooltip-footer')
+    let parentDiv = document.createElement('div');
+    let titleElement = document.createElement("strong");
+    let fontawesomeElement = document.createElement('a');
+    let titleElementDiv = document.createElement('div');
+    let contentElementDiv = document.createElement('div');
+    let seeMoreLessLink = document.createElement('a');
+    let seeMoreDiv = document.createElement('div');
+    let hr = document.createElement('hr');
+    let footerTopDiv = document.createElement('div');
+    let footerBottomDiv = document.createElement('div');
+    let smallTagTop = document.createElement('small');
+    let sourceLink = document.createElement('a');
+    sourceLink.href = instance.itemLink;
+    sourceLink.textContent = instance.itemLink;
+    let smallTagBottom = document.createElement('small');
+    let img = document.createElement("img");
+    img.src = 'aris_logo_small.png';
+    smallTagTop.appendChild(document.createTextNode("Source: "));
+    smallTagTop.appendChild(sourceLink);
+    smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
+    footerTopDiv.appendChild(smallTagTop);
+    footerBottomDiv.appendChild(smallTagBottom);
+    footerBottomDiv.appendChild(img);
+    footerBottomDiv.classList.add('tooltip-footer');
 
-    seeMoreLessLink.href = "#"
+    seeMoreLessLink.href = "#";
     if (instance._see_more) {
         seeMoreLessLink.appendChild(document.createTextNode("...see less"))
     } else {
         seeMoreLessLink.appendChild(document.createTextNode("...see more"))
     }
 
-    seeMoreLessLink.classList.add("see-more-link")
-    titleElement.appendChild(document.createTextNode(instance.name))
+    seeMoreLessLink.classList.add("see-more-link");
+    titleElement.appendChild(document.createTextNode(instance.name));
 
-    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance))
+    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance));
 
-    titleElementDiv.appendChild(titleElement)
+    titleElementDiv.appendChild(titleElement);
 
-    fontawesomeElement.href = instance.itemLink
-    fontawesomeElement.classList.add("fa", "fa-external-link-square")
+    fontawesomeElement.href = instance.itemLink;
+    fontawesomeElement.classList.add("fa", "fa-external-link-square");
 
-    parentDiv.append(titleElementDiv)
-    parentDiv.appendChild(fontawesomeElement)
-
-
-    // instance._see_more ? parentDiv.appendChild(document.createTextNode(instance.definition)) : parentDiv.appendChild(document.createTextNode(instance.shortDefinition))
+    parentDiv.append(titleElementDiv);
+    parentDiv.appendChild(fontawesomeElement);
 
     if (instance._see_more) {
         contentElementDiv.appendChild(document.createTextNode(instance.definition))
@@ -150,25 +147,24 @@ function makeHTMLContent(instance) {
         contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition))
     }
 
-    parentDiv.appendChild(contentElementDiv)
+    parentDiv.appendChild(contentElementDiv);
+    seeMoreDiv.appendChild(seeMoreLessLink);
+    seeMoreDiv.classList.add("see-more-link");
 
-    seeMoreDiv.appendChild(seeMoreLessLink)
-    seeMoreDiv.classList.add("see-more-link")
-
-    if (instance.definition.length != instance.shortDefinition.length) {
+    if (instance.definition.length !== instance.shortDefinition.length) {
         parentDiv.appendChild(seeMoreDiv)
     }
 
-    hr.classList.add('hr-class')
-    parentDiv.appendChild(document.createElement('hr'))
-    parentDiv.appendChild(footerTopDiv)
-    parentDiv.appendChild(footerBottomDiv)
+    hr.classList.add('hr-class');
+    parentDiv.appendChild(document.createElement('hr'));
+    parentDiv.appendChild(footerTopDiv);
+    parentDiv.appendChild(footerBottomDiv);
 
     instance.setContent(parentDiv)
 }
 
 function changeContent(instance) {
-    instance._see_more = !instance._see_more
+    instance._see_more = !instance._see_more;
     makeHTMLContent(instance)
 }
 
@@ -180,12 +176,12 @@ function stripHtmlTags(text) {
 
 function getTextUpToTag(text, tag) {
 
-    let index = text.search(tag)
+    let index = text.search(tag);
 
     if (index !== -1) {
-        return text.substring(0, index)
+        return text.substring(0, index);
     } else {
-        return text
+        return text;
     }
 }
 
@@ -193,9 +189,12 @@ function truncateText(text, numberOfWords) {
     return text.split(" ").splice(0,numberOfWords).join(" ");
 }
 
-createTippyElements('https://registry.aristotlemetadata.com');
+createTippyElements('https://registry.aristotlemetadata.com', );
+
 
 export default function addAristotle(options) {
-    // This the main route through which users will interact with.
+    // This the main route through which users will interact with Aristotle Tooltip.
+    let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
+    let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
 
 }

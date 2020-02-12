@@ -7,10 +7,13 @@
 </div>
 
 ## Features  
-  
+- Use any Aristotle Metadata Registry
+- Handles errors (such as dead items) cleanly
+- Highly customisable to fit with the design choices of your website
 ## Quick Start
 
 ## Options
+- Theme:
 
 ## Setting up a Development Environment
 
