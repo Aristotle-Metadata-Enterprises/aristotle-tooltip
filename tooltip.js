@@ -131,7 +131,12 @@ function makeHTMLContent(instance) {
     seeMoreLessLink.classList.add("see-more-link")
     titleElement.appendChild(document.createTextNode(instance.name))
 
-    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance))
+    seeMoreLessLink.addEventListener("click", function (event, instance) {
+        console.log("THIS IS THE INSTANCE")
+        console.log(instance)
+        instance._see_more = !instance._see_more
+        makeHTMLContent(instance)
+    })
 
     titleElementDiv.appendChild(titleElement)
 
@@ -140,9 +145,6 @@ function makeHTMLContent(instance) {
 
     parentDiv.append(titleElementDiv)
     parentDiv.appendChild(fontawesomeElement)
-
-
-    // instance._see_more ? parentDiv.appendChild(document.createTextNode(instance.definition)) : parentDiv.appendChild(document.createTextNode(instance.shortDefinition))
 
     if (instance._see_more) {
         contentElementDiv.appendChild(document.createTextNode(instance.definition))
@@ -155,7 +157,7 @@ function makeHTMLContent(instance) {
     seeMoreDiv.appendChild(seeMoreLessLink)
     seeMoreDiv.classList.add("see-more-link")
 
-    if (instance.definition.length != instance.shortDefinition.length) {
+    if (instance.definition.length !== instance.shortDefinition.length) {
         parentDiv.appendChild(seeMoreDiv)
     }
 
@@ -167,6 +169,10 @@ function makeHTMLContent(instance) {
     instance.setContent(parentDiv)
 }
 
+/**
+ * This function
+ * @param instance
+ */
 function changeContent(instance) {
     instance._see_more = !instance._see_more
     makeHTMLContent(instance)
