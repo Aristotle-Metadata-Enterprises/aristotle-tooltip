@@ -6,8 +6,12 @@ import 'tippy.js/themes/material.css'
 import 'tippy.js/themes/translucent.css'
 import axios from 'axios'
 
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+
 import './tooltip.css'
-import {getItemLink} from './util.js'
+import {getItemLink, stripHtmlTags, getTextUpToTag} from './util.js'
 
 
 function makeRequest(aristotleId, baseUrl) {
@@ -78,7 +82,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                     instance.itemLink = getItemLink(baseURL, aristotleId);
                     instance._see_more = false;
 
-                    makeHTMLContent(instance);
+                    setHTMLContent(instance);
                     instance._hasSuceeded = true
 
                 }).catch((error) => {
@@ -93,8 +97,8 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
     }
 }
 
-function makeHTMLContent(instance) {
-    // Build HTML content for  display in text
+function setHTMLContent(instance) {
+    // Build and set the HTML content for the tooltip
 
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
@@ -136,7 +140,7 @@ function makeHTMLContent(instance) {
     titleElementDiv.appendChild(titleElement);
 
     fontawesomeElement.href = instance.itemLink;
-    fontawesomeElement.classList.add("fa", "fa-external-link-square");
+    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
 
     parentDiv.append(titleElementDiv);
     parentDiv.appendChild(fontawesomeElement);
@@ -163,30 +167,9 @@ function makeHTMLContent(instance) {
     instance.setContent(parentDiv)
 }
 
-/**
- * This function
- * @param instance
- */
 function changeContent(instance) {
     instance._see_more = !instance._see_more;
-    makeHTMLContent(instance)
-}
-
-function stripHtmlTags(text) {
-    let div = document.createElement("div");
-    div.innerHTML = text;
-    return div.textContent || div.innerText || "";
-}
-
-function getTextUpToTag(text, tag) {
-
-    let index = text.search(tag);
-
-    if (index !== -1) {
-        return text.substring(0, index);
-    } else {
-        return text;
-    }
+    setHTMLContent(instance)
 }
 
 function truncateText(text, numberOfWords) {
