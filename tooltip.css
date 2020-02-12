@@ -1,3 +1,4 @@
 .see-more-link {
-   float: right;
+   /* Push the see more link right */
+   text-align: right;
 }

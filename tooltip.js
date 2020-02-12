@@ -1,49 +1,45 @@
-import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
-import 'tippy.js/themes/light.css';
-import 'tippy.js/themes/light-border.css';
-import 'tippy.js/themes/material.css';
-import 'tippy.js/themes/translucent.css';
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/themes/light.css'
+import 'tippy.js/themes/light-border.css'
+import 'tippy.js/themes/material.css'
+import 'tippy.js/themes/translucent.css'
+import axios from 'axios'
 
-import axios from 'axios';
+import './tooltip.css'
+import {getItemLink} from './util.js'
+
 
 function makeRequest(aristotleId, baseUrl) {
-    let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
-    let item = {};
-
-    axios.get(url)
-        .then((response) => {
-            item.name = response.data['name']
-            item.shortDefinition = response.data['short_definition']
-            this.failure = false;
-
-        }).catch((error) => {
-        if (error.response) {
-            //  The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            let status_code = error.response.status;
-            this.failure = true;
-
-            if (status_code === 401 || status_code === 403) {
-                item.shortDefinition("ERROR: This item is not publicly viewable");
-                item._permanent_failure = true;
-            } else if (String(status_code).startsWith('5')) {
-                // It's a 500 failure
-                item.shortDefinition("ERROR: The server is currently experiencing errors. Please try again later.");
-            } else {
-                // Any other failure
-                item.shortDefinition("ERROR: The server cannot process your request. Please try again later.");
-            }
-        } else if (error.request) {
-            // The request was made but no response was received
-            item.shortDefinition("ERROR: No response was received from the server. Please try again later");
-        }
-    });
-    return item;
+    let url = `${baseUrl}/api/v4/item/${aristotleId}/`
+    return axios.get(url)
 }
 
+function handleError(error) {
+    let errorMsg = ''
 
-function createTippyElements(baseURL) {
+    if (error.response) {
+        //  The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        let status_code = error.response.status
+
+        if (status_code === 401 || status_code === 403) {
+            errorMsg = ("ERROR: This item is not publicly viewable")
+        } else if (String(status_code).startsWith('5')) {
+            // It's a 500 failure
+            errorMsg = ("ERROR: The server is currently experiencing errors. Please try again later.")
+        } else {
+            // Any other failure
+            errorMsg = ("ERROR: The server cannot process your request. Please try again later.")
+        }
+    } else if (error.request) {
+        // The request was made but no response was received
+        errorMsg = ("ERROR: No response was received from the server. Please try again later")
+    }
+    return errorMsg
+}
+
+function createTippyElements(baseURL, theme) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
 
@@ -54,90 +50,152 @@ function createTippyElements(baseURL) {
             content: 'Loading...',
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
+            trigger: "click",
             theme: 'light-border',
             onCreate(instance) {
                 // Keep track of state
-                instance._isFetching = false;
-                instance._hasFailed = null;
-                instance._hasSuceeded = null;
+                instance._isFetching = false
+                instance._hasFailed = null
+                instance._hasSuceeded = null
             },
             onShow(instance) {
-                if (instance._isFetching || instance._hasFailed  || instance._hasSuceeded) {
-                    return;
+                if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
+                    return
                 }
-                instance._isFetching = true;
-                let content = makeRequest(aristotleId, baseURL);
+                instance._isFetching = true
+
+                makeRequest(aristotleId, baseURL).then((response) => {
+                    // The response was successful
+
+                    let definition = response.data['definition']
+                    instance.name = response.data['name']
+                    definition = getTextUpToTag(definition, "<table>")
+                    definition = getTextUpToTag(definition, "<ul>")
+                    definition = getTextUpToTag(definition, "<ol>")
+                    definition = stripHtmlTags(definition)
+                    instance.definition = truncateText(definition, 75)
+                    instance.shortDefinition = response.data['short_definition']
+                    instance.itemLink = getItemLink(baseURL, aristotleId)
+                    instance._see_more = false
+
+                    makeHTMLContent(instance)
+                    instance._hasSuceeded = true
+
+                }).catch((error) => {
+                    // The response failed
+                    let errorMsg = handleError(error)
+                    instance.setContent(errorMsg)
+                    instance._hasFailed = true
+                });
                 instance._isFetching = false
-
-                if (content.failure === true) {
-                    instance.setContent(content.shortDefinition);
-                    instance._hasFailed = true;
-                }
-                else { // The request was a success
-
-                    let htmlContent = addHtmlComponents(content, aristotleId)
-
-                    instance.setContent(htmlContent)
-                    instance._hasSuceeded = true;
-
-                }
             }
         });
     }
 }
 
-function addHtmlComponents(content, definition, aristotleId) {
+function makeHTMLContent(instance) {
+    // Build HTML content for  display in text
 
-    // Remove these when Dylan is finished with the request:
-    content = {}
-    content.name = "MY TESTING TITLE"
-    content.definition = "My Testing Definition. My Testing Definition. My Testing Definition."
-
-    let div = document.createElement('div');
-    let div2 = document.createElement('div')
-    let strongElement = document.createElement("strong");
-    let titleTextNode = document.createTextNode(content.name)
-    let definitionTextNode = document.createTextNode(content.definition)
+    let parentDiv = document.createElement('div')
+    let titleElement = document.createElement("strong")
     let fontawesomeElement = document.createElement('a')
-    let br = document.createElement('br')
-    let br2 = document.createElement('br')
-    let a = document.createElement('a')
-    let seeMoreTextNode = document.createTextNode("...see more")
-    let footerDiv = document.createElement('div')
-    let footerMessage = document.createTextNode("Powered by the Aristotle Metadata Registry")
-    let smallTag = document.createElement('small')
-    smallTag.appendChild(footerMessage)
-    footerDiv.style.cssText = "background-color : #D0D1D5; display : flex; justify-content : center;";
+    let titleElementDiv = document.createElement('div')
+    let contentElementDiv = document.createElement('div')
+    let seeMoreLessLink = document.createElement('a')
+    let seeMoreDiv = document.createElement('div')
+    let hr = document.createElement('hr')
+    let footerTopDiv = document.createElement('div')
+    let footerBottomDiv = document.createElement('div')
+    let smallTagTop = document.createElement('small')
+    let sourceLink = document.createElement('a')
+    sourceLink.href = instance.itemLink
+    sourceLink.textContent = instance.itemLink
+    let smallTagBottom = document.createElement('small')
+    let img = document.createElement("img")
+    img.src = 'aris_logo_small.png'
+    smallTagTop.appendChild(document.createTextNode("Source: "))
+    smallTagTop.appendChild(sourceLink)
+    smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "))
+    footerTopDiv.appendChild(smallTagTop)
+    footerBottomDiv.appendChild(smallTagBottom)
+    footerBottomDiv.appendChild(img)
+    footerBottomDiv.classList.add('tooltip-footer')
 
-    footerDiv.appendChild(smallTag)
-    a.href = "http://localhost:8000/item/" + aristotleId + "/"
-    a.appendChild(seeMoreTextNode)
+    seeMoreLessLink.href = "#"
+    if (instance._see_more) {
+        seeMoreLessLink.appendChild(document.createTextNode("...see less"))
+    } else {
+        seeMoreLessLink.appendChild(document.createTextNode("...see more"))
+    }
 
-    strongElement.appendChild(titleTextNode)
+    seeMoreLessLink.classList.add("see-more-link")
+    titleElement.appendChild(document.createTextNode(instance.name))
 
-    fontawesomeElement.href = "http://localhost:8000/item/" + "1" + "/"
+    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance))
+
+    titleElementDiv.appendChild(titleElement)
+
+    fontawesomeElement.href = instance.itemLink
     fontawesomeElement.classList.add("fa", "fa-external-link-square")
 
-    div2.style.cssText = "display : flex; justify-content : flex-end;";
-    div2.appendChild(a)
+    parentDiv.append(titleElementDiv)
+    parentDiv.appendChild(fontawesomeElement)
 
-    div.appendChild(strongElement)
-    div.appendChild(fontawesomeElement)
-    div.appendChild(br)
-    div.appendChild(definitionTextNode)
-    div.appendChild(br2)
-    div.appendChild(div2)
-    div.appendChild(footerDiv)
 
-    return div.innerHTML
+    // instance._see_more ? parentDiv.appendChild(document.createTextNode(instance.definition)) : parentDiv.appendChild(document.createTextNode(instance.shortDefinition))
+
+    if (instance._see_more) {
+        contentElementDiv.appendChild(document.createTextNode(instance.definition))
+    } else {
+        contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition))
+    }
+
+    parentDiv.appendChild(contentElementDiv)
+
+    seeMoreDiv.appendChild(seeMoreLessLink)
+    seeMoreDiv.classList.add("see-more-link")
+
+    if (instance.definition.length != instance.shortDefinition.length) {
+        parentDiv.appendChild(seeMoreDiv)
+    }
+
+    hr.classList.add('hr-class')
+    parentDiv.appendChild(document.createElement('hr'))
+    parentDiv.appendChild(footerTopDiv)
+    parentDiv.appendChild(footerBottomDiv)
+
+    instance.setContent(parentDiv)
 }
 
-document.addEventListener('click',function(e) {
-    if(e.target && e.target.id == 'my-test') {
-        let instance = e.target.parentElement.parentElement.parentElement.parentElement._tippy
-        instance.setContent("Hello world")
-        //do something
+function changeContent(instance) {
+    instance._see_more = !instance._see_more
+    makeHTMLContent(instance)
+}
+
+function stripHtmlTags(text) {
+    let div = document.createElement("div");
+    div.innerHTML = text;
+    return div.textContent || div.innerText || "";
+}
+
+function getTextUpToTag(text, tag) {
+
+    let index = text.search(tag)
+
+    if (index !== -1) {
+        return text.substring(0, index)
+    } else {
+        return text
     }
-});
+}
+
+function truncateText(text, numberOfWords) {
+    return text.split(" ").splice(0,numberOfWords).join(" ");
+}
 
 createTippyElements('https://registry.aristotlemetadata.com');
+
+export default function addAristotle(options) {
+    // This the main route through which users will interact with.
+
+}
