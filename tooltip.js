@@ -116,6 +116,7 @@ function setHTMLContent(instance) {
     sourceLink.textContent = instance.itemLink;
     let smallTagBottom = document.createElement('small');
     let img = document.createElement("img");
+    img.classList.add('aristotle-logo');
     img.src = 'aris_logo_small.png';
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
