@@ -131,12 +131,7 @@ function makeHTMLContent(instance) {
     seeMoreLessLink.classList.add("see-more-link")
     titleElement.appendChild(document.createTextNode(instance.name))
 
-    seeMoreLessLink.addEventListener("click", function (event, instance) {
-        console.log("THIS IS THE INSTANCE")
-        console.log(instance)
-        instance._see_more = !instance._see_more
-        makeHTMLContent(instance)
-    })
+    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance))
 
     titleElementDiv.appendChild(titleElement)
 
