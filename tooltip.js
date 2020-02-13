@@ -11,12 +11,12 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 
 import './tooltip.css'
-import {getItemLink, stripHtmlTags, getTextUpToTag} from './util.js'
+import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
 
 
 function makeRequest(aristotleId, baseUrl) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
-    return axios.get(url)
+    return axios.get(url);
 }
 
 function handleError(error) {
@@ -28,19 +28,19 @@ function handleError(error) {
         let status_code = error.response.status;
 
         if (status_code === 401 || status_code === 403) {
-            errorMsg = ("ERROR: This item is not publicly viewable")
+            errorMsg = ("ERROR: This item is not publicly viewable");
         } else if (String(status_code).startsWith('5')) {
             // It's a 500 failure
-            errorMsg = ("ERROR: The server is currently experiencing errors. Please try again later.")
+            errorMsg = ("ERROR: The server is currently experiencing errors. Please try again later.");
         } else {
             // Any other failure
-            errorMsg = ("ERROR: The server cannot process your request. Please try again later.")
+            errorMsg = ("ERROR: The server cannot process your request. Please try again later.");
         }
     } else if (error.request) {
         // The request was made but no response was received
-        errorMsg = ("ERROR: No response was received from the server. Please try again later")
+        errorMsg = ("ERROR: No response was received from the server. Please try again later");
     }
-    return errorMsg
+    return errorMsg;
 }
 
 function createTippyElements(baseURL, theme, longDefinitionLength) {
@@ -64,7 +64,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
             },
             onShow(instance) {
                 if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
-                    return
+                    return;
                 }
                 instance._isFetching = true;
 
@@ -73,9 +73,9 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
 
                     let definition = response.data['definition'];
                     instance.name = response.data['name'];
-                    definition = getTextUpToTag(definition, "<table>");
-                    definition = getTextUpToTag(definition, "<ul>");
-                    definition = getTextUpToTag(definition, "<ol>");
+                    definition = getTextUpToStringPattern(definition, "<table>");
+                    definition = getTextUpToStringPattern(definition, "<ul>");
+                    definition = getTextUpToStringPattern(definition, "<ol>");
                     definition = stripHtmlTags(definition);
                     instance.definition = truncateText(definition, 75);
                     instance.shortDefinition = response.data['short_definition'];
@@ -83,7 +83,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                     instance._see_more = false;
 
                     setHTMLContent(instance);
-                    instance._hasSuceeded = true
+                    instance._hasSuceeded = true;
 
                 }).catch((error) => {
                     // The response failed
@@ -128,15 +128,15 @@ function setHTMLContent(instance) {
 
     seeMoreLessLink.href = "#";
     if (instance._see_more) {
-        seeMoreLessLink.appendChild(document.createTextNode("...see less"))
+        seeMoreLessLink.appendChild(document.createTextNode("...see less"));
     } else {
-        seeMoreLessLink.appendChild(document.createTextNode("...see more"))
+        seeMoreLessLink.appendChild(document.createTextNode("...see more"));
     }
 
     seeMoreLessLink.classList.add("see-more-link");
     titleElement.appendChild(document.createTextNode(instance.name));
 
-    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance));
+    seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
     titleElementDiv.appendChild(titleElement);
 
@@ -147,9 +147,9 @@ function setHTMLContent(instance) {
     parentDiv.appendChild(fontawesomeElement);
 
     if (instance._see_more) {
-        contentElementDiv.appendChild(document.createTextNode(instance.definition))
+        contentElementDiv.appendChild(document.createTextNode(instance.definition));
     } else {
-        contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition))
+        contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition));
     }
 
     parentDiv.appendChild(contentElementDiv);
@@ -157,7 +157,7 @@ function setHTMLContent(instance) {
     seeMoreDiv.classList.add("see-more-link");
 
     if (instance.definition.length !== instance.shortDefinition.length) {
-        parentDiv.appendChild(seeMoreDiv)
+        parentDiv.appendChild(seeMoreDiv);
     }
 
     hr.classList.add('hr-class');
@@ -165,16 +165,17 @@ function setHTMLContent(instance) {
     parentDiv.appendChild(footerTopDiv);
     parentDiv.appendChild(footerBottomDiv);
 
-    instance.setContent(parentDiv)
+    instance.setContent(parentDiv);
 }
 
-function changeContent(instance) {
-    instance._see_more = !instance._see_more;
-    setHTMLContent(instance)
-}
-
-function truncateText(text, numberOfWords) {
-    return text.split(" ").splice(0,numberOfWords).join(" ");
+/**
+ * This internal function toggles the content of an Aristotle Tooltip and calls function to generate its HTML content.
+ * @param instance Aristotle Tooltip object instance.
+ * @private
+ */
+function _toggleAristotleTooltipContent(instance) {
+    objectAttributeToggler(instance, "_see_more");
+    setHTMLContent(instance);
 }
 
 createTippyElements('https://registry.aristotlemetadata.com', );
