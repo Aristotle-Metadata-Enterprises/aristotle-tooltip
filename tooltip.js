@@ -102,7 +102,9 @@ function setHTMLContent(instance) {
 
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
-    let fontawesomeElement = document.createElement('a');
+    let externalLink = document.createElement('a');
+    let fontawesomeElement = document.createElement('i');
+
     let titleElementDiv = document.createElement('div');
     let contentElementDiv = document.createElement('div');
     let seeMoreLessLink = document.createElement('a');
@@ -115,11 +117,14 @@ function setHTMLContent(instance) {
     sourceLink.href = instance.itemLink;
     sourceLink.textContent = instance.itemLink;
     let smallTagBottom = document.createElement('small');
+
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
     img.src = 'aris_logo_small.png';
+
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
+
     smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
     footerTopDiv.appendChild(smallTagTop);
     footerBottomDiv.appendChild(smallTagBottom);
@@ -134,17 +139,19 @@ function setHTMLContent(instance) {
     }
 
     seeMoreLessLink.classList.add("see-more-link");
-    titleElement.appendChild(document.createTextNode(instance.name));
+    titleElement.appendChild(document.createTextNode(instance.name + " "));
+
+
+    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
+    externalLink.href = instance.itemLink;
+    externalLink.appendChild(fontawesomeElement);
 
     seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
     titleElementDiv.appendChild(titleElement);
-
-    fontawesomeElement.href = instance.itemLink;
-    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
+    titleElementDiv.appendChild(externalLink);
 
     parentDiv.append(titleElementDiv);
-    parentDiv.appendChild(fontawesomeElement);
 
     if (instance._see_more) {
         contentElementDiv.appendChild(document.createTextNode(instance.definition));
@@ -182,8 +189,7 @@ export function addAristotle(options) {
     // This the main route through which users will interact with Aristotle Tooltip.
     let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
     let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
-    let url = Object.is(options.url, undefined) ? 'registry.aristotlemetadata.com': options.url
+    let url = Object.is(options.url, undefined) ? 'registry.aristotlemetadata.com': options.url;
 
     createTippyElements(url, theme, longDefinitionLength);
-
 }
