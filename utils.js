@@ -53,5 +53,10 @@ export function objectAttributeToggler(instance, attribute) {
  * @returns {*}
  */
 export function truncateText(text, numberOfWords) {
-    return text.split(" ").splice(0, numberOfWords).join(" ");
+    let truncatedText = text.split(" ").splice(0, numberOfWords).join(" ");
+    if (text.length > numberOfWords) {
+        truncatedText += '...'
+    }
+    return truncatedText;
+
 }
