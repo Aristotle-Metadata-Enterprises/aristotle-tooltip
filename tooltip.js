@@ -5,7 +5,6 @@ import 'tippy.js/themes/light-border.css'
 import 'tippy.js/themes/material.css'
 import 'tippy.js/themes/translucent.css'
 import axios from 'axios'
-
 import './tooltip.css'
 import {getItemLink} from './util.js'
 
@@ -69,9 +68,9 @@ function createTippyElements(baseURL, theme) {
 
                     let definition = response.data['definition']
                     instance.name = response.data['name']
-                    definition = getTextUpToTag(definition, "<table>")
-                    definition = getTextUpToTag(definition, "<ul>")
-                    definition = getTextUpToTag(definition, "<ol>")
+                    definition = getTextUpToStringPattern(definition, "<table>")
+                    definition = getTextUpToStringPattern(definition, "<ul>")
+                    definition = getTextUpToStringPattern(definition, "<ol>")
                     definition = stripHtmlTags(definition)
                     instance.definition = truncateText(definition, 75)
                     instance.shortDefinition = response.data['short_definition']
@@ -131,7 +130,7 @@ function makeHTMLContent(instance) {
     seeMoreLessLink.classList.add("see-more-link")
     titleElement.appendChild(document.createTextNode(instance.name))
 
-    seeMoreLessLink.addEventListener("click", changeContent.bind(event, instance))
+    seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance))
 
     titleElementDiv.appendChild(titleElement)
 
@@ -165,23 +164,45 @@ function makeHTMLContent(instance) {
 }
 
 /**
- * This function
- * @param instance
+ * This internal function toggles the content of an Aristotle Tooltip and calls function to generate its HTML content.
+ * @param instance Aristotle Tooltip object instance.
+ * @private
  */
-function changeContent(instance) {
-    instance._see_more = !instance._see_more
+function _toggleAristotleTooltipContent(instance) {
+    objectAttributeToggler(instance, "_see_more")
     makeHTMLContent(instance)
 }
 
-function stripHtmlTags(text) {
-    let div = document.createElement("div");
-    div.innerHTML = text;
-    return div.textContent || div.innerText || "";
+/**
+ * The purpose of this function is to toggle a boolean attribute of an object.
+ * @param instance Object containing the boolean attribute.
+ * @param attribute String representation of the object's attribute to be toggled.
+ */
+function objectAttributeToggler(instance, attribute) {
+    instance[attribute] = !instance[attribute]
 }
 
-function getTextUpToTag(text, tag) {
+/**
+ * The purpose of this function is to remove html tags from a string using the browser inbuilt parser system.
+ * @param text: String object with html tags to be stripped.
+ * @returns {string} Stripped version of the string object.
+ */
+function stripHtmlTags(text) {
+    let div = document.createElement("div")
+    div.innerHTML = text
+    return div.textContent || div.innerText || ""
+}
 
-    let index = text.search(tag)
+/**
+ * THe purpose of this function is to extract a section of a string.
+ * The extracted section contains the text before a particular text pattern is found.
+ * @param text
+ * @param pattern String pattern used to limit the text to be returned.
+ * @returns {string|*} A string containing the extracted section of the string.
+ */
+function getTextUpToStringPattern(text, pattern) {
+
+    let index = text.search(pattern)
 
     if (index !== -1) {
         return text.substring(0, index)
@@ -191,10 +212,10 @@ function getTextUpToTag(text, tag) {
 }
 
 function truncateText(text, numberOfWords) {
-    return text.split(" ").splice(0,numberOfWords).join(" ");
+    return text.split(" ").splice(0,numberOfWords).join(" ")
 }
 
-createTippyElements('https://registry.aristotlemetadata.com');
+createTippyElements('https://registry.aristotlemetadata.com')
 
 export default function addAristotle(options) {
     // This the main route through which users will interact with.
