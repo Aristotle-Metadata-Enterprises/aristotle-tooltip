@@ -55,7 +55,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
             trigger: "click",
-            theme: 'light-border',
+            theme: theme,
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -77,7 +77,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                     definition = getTextUpToTag(definition, "<ul>");
                     definition = getTextUpToTag(definition, "<ol>");
                     definition = stripHtmlTags(definition);
-                    instance.definition = truncateText(definition, 75);
+                    instance.definition = truncateText(definition, longDefinitionLength);
                     instance.shortDefinition = response.data['short_definition'];
                     instance.itemLink = getItemLink(baseURL, aristotleId);
                     instance._see_more = false;
@@ -177,12 +177,12 @@ function truncateText(text, numberOfWords) {
     return text.split(" ").splice(0,numberOfWords).join(" ");
 }
 
-createTippyElements('https://registry.aristotlemetadata.com', );
-
-
-export default function addAristotle(options) {
+export function addAristotle(options) {
     // This the main route through which users will interact with Aristotle Tooltip.
     let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
     let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
+    let url = Object.is(options.url, undefined) ? 'registry.aristotlemetadata.com': options.url
+
+    createTippyElements(url, theme, longDefinitionLength);
 
 }
