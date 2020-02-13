@@ -1,1 +1,1 @@
-let options = {}
+let options = {};

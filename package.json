@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "axios": "^0.19.2",
     "tippy.js": "^5.2.0"
   },
