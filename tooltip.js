@@ -9,6 +9,7 @@ import axios from 'axios'
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
+import image from './aris_logo_small.png'
 
 import './tooltip.css'
 import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
@@ -117,7 +118,7 @@ function setHTMLContent(instance) {
     let smallTagBottom = document.createElement('small');
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
-    img.src = 'aris_logo_small.png';
+    img.src = "dist/" + image;
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
     smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
@@ -181,9 +182,9 @@ function _toggleAristotleTooltipContent(instance) {
 createTippyElements('https://registry.aristotlemetadata.com', );
 
 
-export default function addAristotle(options) {
+export default function AristotleTooltip(options) {
     // This the main route through which users will interact with Aristotle Tooltip.
     let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
     let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
-
+    createTippyElements();
 }
