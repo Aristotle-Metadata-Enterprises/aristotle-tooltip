@@ -8,7 +8,6 @@ import axios from 'axios'
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
-import image from './aris_logo_small.png'
 
 import './tooltip.css'
 import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
@@ -120,7 +119,7 @@ function setHTMLContent(instance) {
 
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
-    img.src = "dist/" + image;
+    img.src = "./aris_logo_small.png";
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
 
