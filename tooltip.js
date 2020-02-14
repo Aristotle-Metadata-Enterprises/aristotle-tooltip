@@ -120,8 +120,7 @@ function setHTMLContent(instance) {
 
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
-    img.src = 'aris_logo_small.png';
-
+    img.src = "./aris_logo_small.png";
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
 
