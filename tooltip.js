@@ -11,7 +11,7 @@ import '@fortawesome/fontawesome-free/js/solid'
 
 import './tooltip.css'
 import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
-
+import aristotle_logo from './aris_logo_small.png';
 
 function makeRequest(aristotleId, baseUrl) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
@@ -50,6 +50,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
     for (let element of elements) {
         let aristotleId = element.dataset.aristotleId;
         tippy(element, {
+            allowHTML: false, // For better security
             content: 'Loading...',
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
@@ -119,7 +120,7 @@ function setHTMLContent(instance) {
 
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
-    img.src = "./aris_logo_small.png";
+    img.src = aristotle_logo;
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
 
