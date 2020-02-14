@@ -13,6 +13,8 @@ import './tooltip.css'
 import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
 import aristotle_logo from './aris_logo_small.png';
 
+
+
 function makeRequest(aristotleId, baseUrl) {
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     return axios.get(url);
