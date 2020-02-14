@@ -1,20 +1,19 @@
 const path = require('path');
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-    entry: {
-        app: './index.js',
-    },
+    entry: './index.js',
     plugins: [
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            title: 'Production',
-        }),
         new MiniCssExtractPlugin(),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: false
+        })
     ],
     module: {
         rules: [
@@ -36,8 +35,8 @@ module.exports = {
         ]
     },
     output: {
-        filename: "aristotle-tooltip.js",
-        library: "aristotle-tooltip",
+        filename: "aristotle_tooltip.js",
+        library: "aristotle_tooltip",
         path: path.resolve(__dirname, 'dist'),
     },
 };
