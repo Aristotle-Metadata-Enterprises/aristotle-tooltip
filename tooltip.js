@@ -50,6 +50,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
     for (let element of elements) {
         let aristotleId = element.dataset.aristotleId;
         tippy(element, {
+            allowHTML: false, // For better security
             content: 'Loading...',
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
