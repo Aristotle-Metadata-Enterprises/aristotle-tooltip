@@ -8,7 +8,6 @@ import axios from 'axios'
 
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
-import '@fortawesome/fontawesome-free/js/regular'
 import image from './aris_logo_small.png'
 
 import './tooltip.css'
@@ -56,7 +55,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
             trigger: "click",
-            theme: 'light-border',
+            theme: theme,
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -78,7 +77,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                     definition = getTextUpToStringPattern(definition, "<ul>");
                     definition = getTextUpToStringPattern(definition, "<ol>");
                     definition = stripHtmlTags(definition);
-                    instance.definition = truncateText(definition, 75);
+                    instance.definition = truncateText(definition, longDefinitionLength);
                     instance.shortDefinition = response.data['short_definition'];
                     instance.itemLink = getItemLink(baseURL, aristotleId);
                     instance._see_more = false;
@@ -103,7 +102,9 @@ function setHTMLContent(instance) {
 
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
-    let fontawesomeElement = document.createElement('a');
+    let externalLink = document.createElement('a');
+    let fontawesomeElement = document.createElement('i');
+
     let titleElementDiv = document.createElement('div');
     let contentElementDiv = document.createElement('div');
     let seeMoreLessLink = document.createElement('a');
@@ -116,11 +117,13 @@ function setHTMLContent(instance) {
     sourceLink.href = instance.itemLink;
     sourceLink.textContent = instance.itemLink;
     let smallTagBottom = document.createElement('small');
+
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
     img.src = "dist/" + image;
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
+
     smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
     footerTopDiv.appendChild(smallTagTop);
     footerBottomDiv.appendChild(smallTagBottom);
@@ -135,17 +138,19 @@ function setHTMLContent(instance) {
     }
 
     seeMoreLessLink.classList.add("see-more-link");
-    titleElement.appendChild(document.createTextNode(instance.name));
+    titleElement.appendChild(document.createTextNode(instance.name + " "));
+
+
+    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
+    externalLink.href = instance.itemLink;
+    externalLink.appendChild(fontawesomeElement);
 
     seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
     titleElementDiv.appendChild(titleElement);
-
-    fontawesomeElement.href = instance.itemLink;
-    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
+    titleElementDiv.appendChild(externalLink);
 
     parentDiv.append(titleElementDiv);
-    parentDiv.appendChild(fontawesomeElement);
 
     if (instance._see_more) {
         contentElementDiv.appendChild(document.createTextNode(instance.definition));
@@ -179,12 +184,11 @@ function _toggleAristotleTooltipContent(instance) {
     setHTMLContent(instance);
 }
 
-createTippyElements('https://registry.aristotlemetadata.com', );
-
-
-export default function AristotleTooltip(options) {
+export function addAristotle(options) {
     // This the main route through which users will interact with Aristotle Tooltip.
     let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
     let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
-    createTippyElements();
+    let url = Object.is(options.url, undefined) ? 'registry.aristotlemetadata.com': options.url;
+
+    createTippyElements(url, theme, longDefinitionLength);
 }
