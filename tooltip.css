@@ -6,3 +6,23 @@
 .aristotle-logo {
    vertical-align: middle;
 }
+
+.external-link {
+   display: inline-block;
+   width: 1em;
+   height: auto;
+}
+
+.tippy-tooltip {
+   font-size: 2.0em;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+}
+
+@media (min-width: 1024px) {
+   .tippy-tooltip {
+      font-size: 0.8rem;
+   }
+
+}
+
