@@ -10,10 +10,12 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 
 import './tooltip.css'
-import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
+import {getItemLink, getTextUpToStringPattern, objectAttributeToggler, stripHtmlTags, truncateText} from './utils.js'
 import aristotle_logo from './aris_logo_small.png';
 
-function makeRequest(aristotleId, baseUrl) {
+function makeRequest(baseUrl, aristotleId) {
+
+    baseUrl === undefined ? baseUrl = '' : null;
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     return axios.get(url);
 }
@@ -42,9 +44,11 @@ function handleError(error) {
     return errorMsg;
 }
 
-function createTippyElements(baseURL, theme, longDefinitionLength) {
+function createTippyElements(baseURL, theme, definitionWords, longDefinitionWords, placement) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
+    console.log("THIS IS THE POSITION")
+    console.log(placement)
 
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let element of elements) {
@@ -56,6 +60,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
             interactive: true,
             trigger: "click",
             theme: theme,
+            placement: placement,
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -68,7 +73,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                 }
                 instance._isFetching = true;
 
-                makeRequest(aristotleId, baseURL).then((response) => {
+                makeRequest(baseURL, aristotleId).then((response) => {
                     // The response was successful
 
                     let definition = response.data['definition'];
@@ -77,7 +82,7 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
                     definition = getTextUpToStringPattern(definition, "<ul>");
                     definition = getTextUpToStringPattern(definition, "<ol>");
                     definition = stripHtmlTags(definition);
-                    instance.definition = truncateText(definition, longDefinitionLength);
+                    instance.definition = truncateText(definition, longDefinitionWords);
                     instance.shortDefinition = response.data['short_definition'];
                     instance.itemLink = getItemLink(baseURL, aristotleId);
                     instance._see_more = false;
@@ -143,12 +148,16 @@ function setHTMLContent(instance) {
 
     fontawesomeElement.classList.add("fas", "fa-external-link-alt");
     externalLink.href = instance.itemLink;
+    externalLink.setAttribute("target", "_blank"); // Open item in a new tab.
+    let supTag = document.createElement('sup');
     externalLink.appendChild(fontawesomeElement);
+    supTag.appendChild(externalLink);
+    supTag.title = "Open in a new window.";
 
     seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
     titleElementDiv.appendChild(titleElement);
-    titleElementDiv.appendChild(externalLink);
+    titleElementDiv.appendChild(supTag);
 
     parentDiv.append(titleElementDiv);
 
@@ -184,11 +193,35 @@ function _toggleAristotleTooltipContent(instance) {
     setHTMLContent(instance);
 }
 
+/**
+ * This is the main route through which users will interact with Aristotle Tooltip.
+ * @param options Object containing the options available to configure the Aristotle tooltip.
+ *
+ *           * url - URL address used to fetch definitions from.
+ *           theme - CSS theme used to style the Aristotle tooltip objects. Defaults to light-border style.
+ *           definitionWords - Number of words included in the tooltip. Defaults to 50 words.
+ *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
+ *               The "See more..." option will not be visible if no longDefinitionLength option is passed.
+ *           position - positioning of the tooltip. Defaults to 'bottom'.
+ *           fontawesome
+ *
+ *
+ * NOTE: required options are marked with an asterisk (*).
+ */
 export function addAristotle(options) {
-    // This the main route through which users will interact with Aristotle Tooltip.
-    let theme = Object.is(options.theme, undefined) ? 'light-border': options.theme;
-    let longDefinitionLength = Object.is(options.longDefinitionLength, undefined) ? 75: options.longDefinitionLength;
-    let url = Object.is(options.url, undefined) ? 'registry.aristotlemetadata.com': options.url;
 
-    createTippyElements(url, theme, longDefinitionLength);
+    let url;
+
+    if (options.hasOwnProperty('url')) {
+        url =options.url;
+    } else {
+        console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.", 'color: Orange');
+    }
+
+    let theme = Object.is(options.theme, undefined) ? 'light-border' : options.theme;
+    let definitionWords = Object.is(options.definitionWords, undefined) ? 50 : options.definitionWords;
+    let longDefinitionWords = options.longDefinitionWords;
+    let placement = Object.is(options.position, undefined) ? 'bottom' : options.longDefinitionWords;
+
+    createTippyElements(url, theme, definitionWords, longDefinitionWords, placement);
 }
