@@ -52,6 +52,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
             theme: 'light-border',
+            trigger: 'click',
             placement: 'bottom',
             onCreate(instance) {
                 // Keep track of state

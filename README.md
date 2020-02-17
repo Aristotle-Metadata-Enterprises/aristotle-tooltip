@@ -5,29 +5,31 @@
   <h1>Aristotle Tooltip</h1>
   <p>A highly customisable and easy to use way to insert Aristotle powered definitions to your website!</p>
 </div>
-![Example image](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/blob/master/image.png)
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
 - :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
 - :mouse: Light: weighs just 60kb, including image assets.
 
+## Example
+![Image](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/blob/master/image.png?raw=true)
+
 ## Quick Start
 ### Package Manager
 Install the aristotle-tooltip package:
 ```console
-frankie@aristotle:~$ npm i aristotle-tooltip
+frankie@aristotle:~$ npm i aristotle_tooltip
 ```
-In your application, import the `aristotle-tooltip` module, and the core css:
+In your application, import the `aristotle_tooltip` module, and the core css:
 ```javascript
-import {addAristotle} from aristotle-tooltip
-import aristotle-tooltip/dist/tooltip.css
+import {addAristotle} from 'aristotle_tooltip'
+import 'aristotle_tooltip/dist/tooltip.css'
 ```
 This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 
 ### CDN
 ```html
-<script src="https://cdn.jsdelivr.net/npm/aristotle-tooltip@1/dist/aristotle-tooltip.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aristotle_tooltip@1/dist/aristotle-tooltip.js"></script>
 ```
 Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
 
