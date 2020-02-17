@@ -16,6 +16,7 @@
 .tippy-tooltip {
    font-size: 2.0em;
    overflow-wrap: break-word;
+   word-wrap: break-word;
 }
 
 @media (min-width: 1024px) {
