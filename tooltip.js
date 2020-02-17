@@ -230,11 +230,14 @@ function _toggleAristotleTooltipContent(instance) {
  */
 export function addAristotle(options) {
 
+    let url;
+
     if (options.hasOwnProperty('url')) {
-        let url = options.url;
+        url = options.url;
     } else {
         console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.",
             'color: Orange');
+        url = "";
     }
     let definitionWords = Object.is(options.definitionWords, undefined) ? 50 : options.definitionWords;
     let longDefinitionWords = options.longDefinitionWords;
