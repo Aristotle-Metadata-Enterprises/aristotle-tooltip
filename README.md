@@ -14,6 +14,12 @@
 
 ## Options
 - Theme:
+    Choice of:
+    - light
+    - light-border
+    - material
+    - translucent
+ - Placement:
 
 ## Setting up a Development Environment
 

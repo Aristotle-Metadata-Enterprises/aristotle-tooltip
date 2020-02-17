@@ -1,9 +1,6 @@
 import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import 'tippy.js/themes/light.css'
 import 'tippy.js/themes/light-border.css'
-import 'tippy.js/themes/material.css'
-import 'tippy.js/themes/translucent.css'
 import axios from 'axios'
 
 import './tooltip.css'
@@ -42,7 +39,7 @@ function handleError(error) {
     return errorMsg;
 }
 
-function createTippyElements(baseURL, theme, definitionWords, longDefinitionWords, placement) {
+function createTippyElements(baseURL, definitionWords, longDefinitionWords, placement) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
 
@@ -54,9 +51,8 @@ function createTippyElements(baseURL, theme, definitionWords, longDefinitionWord
             content: 'Loading...',
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
             interactive: true,
-            trigger: "click",
-            theme: theme,
-            placement: placement,
+            theme: 'light-border',
+            placement: 'bottom',
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -211,26 +207,22 @@ function _toggleAristotleTooltipContent(instance) {
  *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
  *               The "See more..." option will not be visible if no longDefinitionLength option is passed.
  *           position - positioning of the tooltip. Defaults to 'bottom'.
- *           fontawesome
+ *           externalLinkVisible - Whether or not to display the external item link page
+ *
  *
  *
  * NOTE: required options are marked with an asterisk (*).
  */
 export function addAristotle(options) {
 
-    let url;
-
     if (options.hasOwnProperty('url')) {
-        url = options.url;
+        let url = options.url;
     } else {
         console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.",
             'color: Orange');
     }
-
-    let theme = Object.is(options.theme, undefined) ? 'light-border' : options.theme;
     let definitionWords = Object.is(options.definitionWords, undefined) ? 50 : options.definitionWords;
     let longDefinitionWords = options.longDefinitionWords;
-    let placement = Object.is(options.position, undefined) ? 'bottom' : options.longDefinitionWords;
 
-    createTippyElements(url, theme, definitionWords, longDefinitionWords, placement);
+    createTippyElements(url, definitionWords, longDefinitionWords);
 }
