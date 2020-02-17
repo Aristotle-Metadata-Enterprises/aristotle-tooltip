@@ -47,8 +47,6 @@ function handleError(error) {
 function createTippyElements(baseURL, theme, definitionWords, longDefinitionWords, placement) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
-    console.log("THIS IS THE POSITION")
-    console.log(placement)
 
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let element of elements) {
@@ -184,7 +182,7 @@ function setHTMLContent(instance) {
 }
 
 /**
- * This internal function toggles the content of an Aristotle Tooltip and calls function to generate its HTML content.
+ * This internal function toggles the content of an Aristotle Tooltip and calls a function to generate its HTML content.
  * @param instance Aristotle Tooltip object instance.
  * @private
  */
@@ -201,7 +199,7 @@ function _toggleAristotleTooltipContent(instance) {
  *           theme - CSS theme used to style the Aristotle tooltip objects. Defaults to light-border style.
  *           definitionWords - Number of words included in the tooltip. Defaults to 50 words.
  *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
- *               The "See more..." option will not be visible if no longDefinitionLength option is passed.
+ *               The "See more..." option will not be visible if this option is not included.
  *           position - positioning of the tooltip. Defaults to 'bottom'.
  *           fontawesome
  *
