@@ -220,7 +220,6 @@ function _toggleAristotleTooltipContent(instance) {
  * @param options Object containing the options available to configure the Aristotle tooltip.
  *
  *           * url - URL address used to fetch definitions from.
- *           theme - CSS theme used to style the Aristotle tooltip objects. Defaults to light-border style.
  *           definitionWords - Number of words included in the tooltip. Defaults to 50 words.
  *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
  *               The "See more..." option will not be visible if this option is not included.
