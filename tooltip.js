@@ -99,20 +99,103 @@ function createTippyElements(baseURL, theme, definitionWords, longDefinitionWord
     }
 }
 
+function setHTMLContent(instance) {
+    // Build and set the HTML content for the tooltip
+    let wrapperDiv = document.createElement('div');
+    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink));
+    wrapperDiv.appendChild(createTooltipBody(instance));
+    wrapperDiv.appendChild(createTooltipFooter(instance.itemLink));
+    instance.setContent(wrapperDiv);
+}
+
+function createTooltipHeader(itemName, url) {
+    let wrapperDiv = document.createElement('div');
+    let strongTag = document.createElement("strong");
+    let externalItemLink = createExternalItemLink(url);
+    strongTag.appendChild(document.createTextNode(itemName + " "));
+    wrapperDiv.appendChild(strongTag);
+    wrapperDiv.appendChild(externalItemLink);
+    return wrapperDiv;
+}
+
+function createTooltipBody(instance) {
+    let wrapperDiv = document.createElement('div');
+    let contentElementDiv = document.createElement('div');
+    let seeMoreDiv = document.createElement('div');
+    let seeMoreLessLink = document.createElement('a');
+    seeMoreLessLink.classList.add("see-more-link");
+    seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
+    seeMoreLessLink.href = "#";
+
+    if (instance._see_more) {
+        seeMoreLessLink.appendChild(document.createTextNode("...see less"));
+
+        let definitionText;
+
+        if (instance.definition === '') {
+            definitionText = "This item does not have a definition.";
+        } else {
+            definitionText = instance.definition;
+        }
+        contentElementDiv.appendChild(document.createTextNode(definitionText));
+    } else {
+        contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition));
+        seeMoreLessLink.appendChild(document.createTextNode("...see more"));
+    }
+    wrapperDiv.appendChild(contentElementDiv);
+    seeMoreDiv.appendChild(seeMoreLessLink);
+    seeMoreDiv.classList.add("see-more-link");
+
+    if (instance.definition.length !== instance.shortDefinition.length) {
+        wrapperDiv.appendChild(seeMoreDiv);
+    }
+
+    return wrapperDiv;
+}
+
+function createTooltipFooter(url) {
+    let wrapperDiv = document.createElement('div');
+    let footerTop = createFooterTop(url);
+    let footerBottom = createFooterBottom();
+    wrapperDiv.appendChild(document.createElement('hr'));
+    wrapperDiv.appendChild(footerTop);
+    wrapperDiv.appendChild(footerBottom);
+    return wrapperDiv;
+}
+
+function createFooterTop(url) {
+    let wrapperDiv = document.createElement('div');
+    let smallTag = document.createElement('small');
+    let link = document.createElement('a');
+    smallTag.appendChild(document.createTextNode("Source: "));
+    link.href = url;
+    link.textContent = url;
+    smallTag.appendChild(link);
+    wrapperDiv.appendChild(smallTag);
+    return wrapperDiv;
+}
+
+function createFooterBottom() {
+    let wrapperDiv = document.createElement('div');
+    let smallTag = document.createElement('small');
+    let aristotleLogo = createAristotleLogoHTMl();
+    smallTag.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
+    wrapperDiv.appendChild(smallTag);
+    wrapperDiv.appendChild(aristotleLogo);
+    return wrapperDiv;
+}
+
 function createExternalItemLink(itemUrl) {
     let externalLink = document.createElement('a');
     let externalLinkIcon = document.createElement('span');
+    let supTag = document.createElement('sup');
     externalLinkIcon.innerHTML = externalLinkSvg;
     externalLinkIcon.classList.add('external-link');
-
     externalLink.href = itemUrl;
     externalLink.appendChild(externalLinkIcon);
     externalLink.setAttribute("target", "_blank"); // Open item in a new tab.
-
-    let supTag = document.createElement('sup');
     supTag.title = "View item in a new window";
     supTag.appendChild(externalLink);
-
     return supTag;
 }
 
@@ -120,77 +203,9 @@ function createAristotleLogoHTMl() {
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
     img.src = aristotle_logo;
-
     return img;
 }
 
-function setHTMLContent(instance) {
-    // Build and set the HTML content for the tooltip
-    let parentDiv = document.createElement('div');
-    let titleElement = document.createElement("strong");
-    let titleElementDiv = document.createElement('div');
-    let contentElementDiv = document.createElement('div');
-    let seeMoreLessLink = document.createElement('a');
-    let seeMoreDiv = document.createElement('div');
-    let hr = document.createElement('hr');
-    let footerTopDiv = document.createElement('div');
-    let footerBottomDiv = document.createElement('div');
-    let smallTagTop = document.createElement('small');
-    let sourceLink = document.createElement('a');
-    sourceLink.href = instance.itemLink;
-    sourceLink.textContent = instance.itemLink;
-    let smallTagBottom = document.createElement('small');
-
-    smallTagTop.appendChild(document.createTextNode("Source: "));
-    smallTagTop.appendChild(sourceLink);
-
-    smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
-    footerTopDiv.appendChild(smallTagTop);
-    footerBottomDiv.appendChild(smallTagBottom);
-
-    let aristotleLogo = createAristotleLogoHTMl();
-    footerBottomDiv.appendChild(aristotleLogo);
-    footerBottomDiv.classList.add('tooltip-footer');
-
-    seeMoreLessLink.href = "#";
-    if (instance._see_more) {
-        seeMoreLessLink.appendChild(document.createTextNode("...see less"));
-    } else {
-        seeMoreLessLink.appendChild(document.createTextNode("...see more"));
-    }
-
-    seeMoreLessLink.classList.add("see-more-link");
-    titleElement.appendChild(document.createTextNode(instance.name + " "));
-
-    seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
-
-    let externalItemLink = createExternalItemLink(instance.itemLink);
-    titleElementDiv.appendChild(titleElement);
-    titleElementDiv.appendChild(externalItemLink);
-
-    parentDiv.append(titleElementDiv);
-
-    if (instance._see_more) {
-        contentElementDiv.appendChild(document.createTextNode(instance.definition));
-    } else {
-        contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition));
-    }
-
-    parentDiv.appendChild(contentElementDiv);
-    seeMoreDiv.appendChild(seeMoreLessLink);
-    seeMoreDiv.classList.add("see-more-link");
-
-    if (instance.definition.length !== instance.shortDefinition.length) {
-        parentDiv.appendChild(seeMoreDiv);
-    }
-
-    hr.classList.add('hr-class');
-    parentDiv.appendChild(document.createElement('hr'));
-    parentDiv.appendChild(footerTopDiv);
-    parentDiv.appendChild(footerBottomDiv);
-
-    instance.setContent(parentDiv);
-}
 
 /**
  * This internal function toggles the content of an Aristotle Tooltip and calls a function to generate its HTML content.
