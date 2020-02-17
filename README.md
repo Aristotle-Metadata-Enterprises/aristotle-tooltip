@@ -13,10 +13,11 @@
 
 ## Quick Start
 ### Package Manager
+Install the aristotle-tooltip package:
 ```console
 frankie@aristotle:~$ npm i aristotle-tooltip
 ```
-In your application, import the `aristotle-tooltip` module, and the core css  
+In your application, import the `aristotle-tooltip` module, and the core css:
 ```javascript
 import {addAristotle} from aristotle-tooltip
 import aristotle-tooltip/dist/tooltip.css
@@ -27,8 +28,7 @@ This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 ```html
 <script src="https://cdn.jsdelivr.net/npm/aristotle-tooltip@1/dist/aristotle-tooltip.js"></script>
 ```
-Place them at the very bottom of the `<body>`. They must be placed before your own own scripts, because of how the underlying Tippy.js library
-adds the tooltips.
+Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
 
 ### Usage
 To add a tooltip for a piece of content on your webpage
