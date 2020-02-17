@@ -248,8 +248,5 @@ export function addAristotle(options) {
     let longDefinitionWords = options.longDefinitionWords;
     let externalLinkVisible = Object.is(options.externalLinkVisible, undefined) ? true : options.externalLinkVisible;
 
-    console.log("THIS IS EXTERNAL LINK VISIBLE")
-    console.log(externalLinkVisible)
-
-    createTippyElements(url, definitionWords, longDefinitionWords, placement, externalLinkVisible, externalLinkVisible);
+    createTippyElements(url, definitionWords, longDefinitionWords, placement, externalLinkVisible);
 }
