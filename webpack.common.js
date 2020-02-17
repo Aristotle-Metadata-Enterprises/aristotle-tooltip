@@ -42,7 +42,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: "aristotle_tooltip.js",
+        filename: "tooltip.js",
         library: "aristotle_tooltip",
         path: path.resolve(__dirname, 'dist'),
     },
