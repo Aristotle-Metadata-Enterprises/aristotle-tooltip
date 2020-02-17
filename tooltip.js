@@ -98,11 +98,9 @@ function createTippyElements(baseURL, theme, longDefinitionLength) {
 
 function setHTMLContent(instance) {
     // Build and set the HTML content for the tooltip
-
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
     let externalLink = document.createElement('a');
-
     let titleElementDiv = document.createElement('div');
     let contentElementDiv = document.createElement('div');
     let seeMoreLessLink = document.createElement('a');
@@ -119,6 +117,7 @@ function setHTMLContent(instance) {
     let img = document.createElement("img");
     img.classList.add('aristotle-logo');
     img.src = aristotle_logo;
+
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
 
