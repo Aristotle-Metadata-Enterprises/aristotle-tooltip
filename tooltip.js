@@ -13,7 +13,6 @@ import externalLinkSvg from './external-link-alt.svg';
 
 
 function makeRequest(baseUrl, aristotleId) {
-
     baseUrl === undefined ? baseUrl = '' : null;
     let url = `${baseUrl}/api/v4/item/${aristotleId}/`;
     return axios.get(url);
