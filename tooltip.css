@@ -6,3 +6,9 @@
 .aristotle-logo {
    vertical-align: middle;
 }
+
+.external-link {
+   display: inline-block;
+   width: 1em;
+   height: auto;
+}

@@ -6,13 +6,10 @@ import 'tippy.js/themes/material.css'
 import 'tippy.js/themes/translucent.css'
 import axios from 'axios'
 
-import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/solid'
-
 import './tooltip.css'
 import {getItemLink, stripHtmlTags, getTextUpToStringPattern, objectAttributeToggler, truncateText} from './utils.js'
 import aristotle_logo from './aris_logo_small.png';
-
+import externalLinkSvg from './external-link-alt.svg';
 
 
 function makeRequest(aristotleId, baseUrl) {
@@ -105,7 +102,6 @@ function setHTMLContent(instance) {
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
     let externalLink = document.createElement('a');
-    let fontawesomeElement = document.createElement('i');
 
     let titleElementDiv = document.createElement('div');
     let contentElementDiv = document.createElement('div');
@@ -142,10 +138,12 @@ function setHTMLContent(instance) {
     seeMoreLessLink.classList.add("see-more-link");
     titleElement.appendChild(document.createTextNode(instance.name + " "));
 
+    let externalLinkIcon = document.createElement('span');
+    externalLinkIcon.innerHTML = externalLinkSvg;
+    externalLinkIcon.classList.add('external-link');
 
-    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
     externalLink.href = instance.itemLink;
-    externalLink.appendChild(fontawesomeElement);
+    externalLink.appendChild(externalLinkIcon);
 
     seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
