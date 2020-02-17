@@ -39,7 +39,7 @@ function handleError(error) {
     return errorMsg;
 }
 
-function createTippyElements(baseURL, definitionWords, longDefinitionWords, placement) {
+function createTippyElements(baseURL, definitionWords, longDefinitionWords, placement, externalLinkVisible) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
 
@@ -53,7 +53,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
             interactive: true,
             theme: 'light-border',
             trigger: 'click',
-            placement: 'bottom',
+            placement: placement,
             onCreate(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -80,7 +80,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
                     instance.itemLink = getItemLink(baseURL, aristotleId);
                     instance._see_more = false;
 
-                    setHTMLContent(instance);
+                    setHTMLContent(instance, externalLinkVisible);
                     instance._hasSuceeded = true;
 
                 }).catch((error) => {
@@ -95,22 +95,24 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
     }
 }
 
-function setHTMLContent(instance) {
+function setHTMLContent(instance, externalLinkVisible) {
     // Build and set the HTML content for the tooltip
     let wrapperDiv = document.createElement('div');
-    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink));
+    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink, externalLinkVisible));
     wrapperDiv.appendChild(createTooltipBody(instance));
     wrapperDiv.appendChild(createTooltipFooter(instance.itemLink));
     instance.setContent(wrapperDiv);
 }
 
-function createTooltipHeader(itemName, url) {
+function createTooltipHeader(itemName, url, externalLinkVisible) {
     let wrapperDiv = document.createElement('div');
     let strongTag = document.createElement("strong");
     let externalItemLink = createExternalItemLink(url);
     strongTag.appendChild(document.createTextNode(itemName + " "));
     wrapperDiv.appendChild(strongTag);
-    wrapperDiv.appendChild(externalItemLink);
+    if (externalLinkVisible) {
+        wrapperDiv.appendChild(externalItemLink);
+    }
     return wrapperDiv;
 }
 
@@ -222,7 +224,7 @@ function _toggleAristotleTooltipContent(instance) {
  *           definitionWords - Number of words included in the tooltip. Defaults to 50 words.
  *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
  *               The "See more..." option will not be visible if this option is not included.
- *           position - positioning of the tooltip. Defaults to 'bottom'.
+ *           placement - positioning of the tooltip. Defaults to 'bottom'.
  *           externalLinkVisible - Whether or not to display the external item link page
  *
  *
@@ -231,14 +233,20 @@ function _toggleAristotleTooltipContent(instance) {
  */
 export function addAristotle(options) {
 
+    let url = "";
+
     if (options.hasOwnProperty('url')) {
-        let url = options.url;
+        url = options.url;
     } else {
         console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.",
             'color: Orange');
     }
+
+    let placement = Object.is(options.placement, undefined) ? 'bottom' : options.placement;
+
     let definitionWords = Object.is(options.definitionWords, undefined) ? 50 : options.definitionWords;
     let longDefinitionWords = options.longDefinitionWords;
+    let externalLinkVisible = Object.is(options.externalLinkVisible, undefined) ? true : options.externalLinkVisible;
 
-    createTippyElements(url, definitionWords, longDefinitionWords);
+    createTippyElements(url, definitionWords, longDefinitionWords, placement, externalLinkVisible);
 }
