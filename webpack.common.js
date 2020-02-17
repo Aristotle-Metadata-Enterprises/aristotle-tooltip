@@ -9,7 +9,9 @@ module.exports = {
     entry: './index.js',
     plugins: [
         new CleanWebpackPlugin(),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'tooltip.css'
+        }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false
