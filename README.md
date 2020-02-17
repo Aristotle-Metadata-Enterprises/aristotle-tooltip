@@ -11,7 +11,7 @@
 - :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
 - :mouse: Light: weighs just 60kb, including image assets.
 
-## Example Image
+## Example
 ![Image](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/blob/master/image.png?raw=true)
 
 ## Quick Start
