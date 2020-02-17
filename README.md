@@ -5,12 +5,14 @@
   <h1>Aristotle Tooltip</h1>
   <p>A highly customisable and easy to use way to insert Aristotle powered definitions to your website!</p>
 </div>
-![Example image](https://raw.githubusercontent.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/master/image.png?token=AJICMXZUYP3B2F7TV5D45PS6KNGK4)
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
 - :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
 - :mouse: Light: weighs just 60kb, including image assets.
+
+## Example Image
+![Image](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/blob/master/image.png?raw=true)
 
 ## Quick Start
 ### Package Manager
