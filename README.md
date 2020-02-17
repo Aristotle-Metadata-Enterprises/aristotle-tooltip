@@ -7,19 +7,14 @@
 </div>
 
 ## Features  
-- Use any Aristotle Metadata Registry
-- Handles errors (such as dead items) cleanly
-- Highly customisable to fit with the design choices of your website
+- :heavycheckmark: - Use any Aristotle Metadata Registry
+- :globe_with_meridians: - IE11+ Support: compatible with 99% of desktop and 98% of multiple users
+- :mouse: - weighs just 60kb, including image assets
+
 ## Quick Start
+### Package Manager
 
 ## Options
-- Theme:
-    Choice of:
-    - light
-    - light-border
-    - material
-    - translucent
- - Placement:
 
 ## Setting up a Development Environment
 
