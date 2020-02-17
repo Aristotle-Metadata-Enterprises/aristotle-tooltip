@@ -7,17 +7,58 @@
 </div>
 
 ## Features  
-- :heavycheckmark: - Use any Aristotle Metadata Registry
-- :globe_with_meridians: - IE11+ Support: compatible with 99% of desktop and 98% of multiple users
-- :mouse: - weighs just 60kb, including image assets
+- :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
+- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
+- :mouse: Light: weighs just 60kb, including image assets.
 
 ## Quick Start
 ### Package Manager
-
-## Options
-
-## Setting up a Development Environment
+```console
+frankie@aristotle:~$ npm i aristotle-tooltip
+```
+In your application, import the `aristotle-tooltip` module, and the core css  
+```javascript
+import {addAristotle} from aristotle-tooltip
+import aristotle-tooltip/dist/tooltip.css
+```
+This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 
 ### CDN
+```html
+<script src="https://cdn.jsdelivr.net/npm/aristotle-tooltip@1/dist/aristotle-tooltip.js"></script>
+```
+Place them at the very bottom of the `<body>`. They must be placed before your own own scripts, because of how the underlying Tippy.js library
+adds the tooltips.
 
-## Usage
+### Usage
+To add a tooltip for a piece of content on your webpage
+```html
+A <a href="#" data-aristotle-id="498427">person<a> is known by the company they keep
+```
+### Setup
+```javascript
+let options = {
+  'url': 'https://registry.aristotlemetadata.com',
+  'definitionWords': 50,
+  'longDefinitionWords': 75,
+  'displayExternalLink': true,
+};
+addAristotle(options);
+
+```
+
+## Options
+| Tables        | Default           | Explanation  |
+| ------------- |:-------------:| -----:|
+| `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
+| `definitionWords`      | 50      |  The number of words to display in the initial popup  |
+| `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed
+| `displayExternalLink` | `true`      | Whether to display an external link icon next to the name of the metadata item |
+
+## Setting up a Development Environment
+We're an open source project that welcomes any new contributions. To setup a development environment, simply fork the repo, clone it locally, and from within the `aristotle-tooltip` project, run:
+```console
+oscar@aristotle:~$ npm install . 
+oscar@aristotle:~$ npm run build-dev
+```
+
