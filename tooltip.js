@@ -6,12 +6,11 @@ import 'tippy.js/themes/material.css'
 import 'tippy.js/themes/translucent.css'
 import axios from 'axios'
 
-import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/solid'
-
 import './tooltip.css'
 import {getItemLink, getTextUpToStringPattern, objectAttributeToggler, stripHtmlTags, truncateText} from './utils.js'
 import aristotle_logo from './aris_logo_small.png';
+import externalLinkSvg from './external-link-alt.svg';
+
 
 function makeRequest(baseUrl, aristotleId) {
 
@@ -47,8 +46,6 @@ function handleError(error) {
 function createTippyElements(baseURL, theme, definitionWords, longDefinitionWords, placement) {
     // Select all elements that contain an aristotle id
     let elements = document.querySelectorAll('[data-aristotle-id]');
-    console.log("THIS IS THE POSITION")
-    console.log(placement)
 
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let element of elements) {
@@ -102,14 +99,35 @@ function createTippyElements(baseURL, theme, definitionWords, longDefinitionWord
     }
 }
 
+function createExternalItemLink(itemUrl) {
+    let externalLink = document.createElement('a');
+    let externalLinkIcon = document.createElement('span');
+    externalLinkIcon.innerHTML = externalLinkSvg;
+    externalLinkIcon.classList.add('external-link');
+
+    externalLink.href = itemUrl;
+    externalLink.appendChild(externalLinkIcon);
+    externalLink.setAttribute("target", "_blank"); // Open item in a new tab.
+
+    let supTag = document.createElement('sup');
+    supTag.title = "View item in a new window";
+    supTag.appendChild(externalLink);
+
+    return supTag;
+}
+
+function createAristotleLogoHTMl() {
+    let img = document.createElement("img");
+    img.classList.add('aristotle-logo');
+    img.src = aristotle_logo;
+
+    return img;
+}
+
 function setHTMLContent(instance) {
     // Build and set the HTML content for the tooltip
-
     let parentDiv = document.createElement('div');
     let titleElement = document.createElement("strong");
-    let externalLink = document.createElement('a');
-    let fontawesomeElement = document.createElement('i');
-
     let titleElementDiv = document.createElement('div');
     let contentElementDiv = document.createElement('div');
     let seeMoreLessLink = document.createElement('a');
@@ -123,16 +141,15 @@ function setHTMLContent(instance) {
     sourceLink.textContent = instance.itemLink;
     let smallTagBottom = document.createElement('small');
 
-    let img = document.createElement("img");
-    img.classList.add('aristotle-logo');
-    img.src = aristotle_logo;
     smallTagTop.appendChild(document.createTextNode("Source: "));
     smallTagTop.appendChild(sourceLink);
 
     smallTagBottom.appendChild(document.createTextNode("Powered by the Aristotle Metadata Registry "));
     footerTopDiv.appendChild(smallTagTop);
     footerBottomDiv.appendChild(smallTagBottom);
-    footerBottomDiv.appendChild(img);
+
+    let aristotleLogo = createAristotleLogoHTMl();
+    footerBottomDiv.appendChild(aristotleLogo);
     footerBottomDiv.classList.add('tooltip-footer');
 
     seeMoreLessLink.href = "#";
@@ -145,19 +162,11 @@ function setHTMLContent(instance) {
     seeMoreLessLink.classList.add("see-more-link");
     titleElement.appendChild(document.createTextNode(instance.name + " "));
 
-
-    fontawesomeElement.classList.add("fas", "fa-external-link-alt");
-    externalLink.href = instance.itemLink;
-    externalLink.setAttribute("target", "_blank"); // Open item in a new tab.
-    let supTag = document.createElement('sup');
-    externalLink.appendChild(fontawesomeElement);
-    supTag.appendChild(externalLink);
-    supTag.title = "Open in a new window.";
-
     seeMoreLessLink.addEventListener("click", _toggleAristotleTooltipContent.bind(event, instance));
 
+    let externalItemLink = createExternalItemLink(instance.itemLink);
     titleElementDiv.appendChild(titleElement);
-    titleElementDiv.appendChild(supTag);
+    titleElementDiv.appendChild(externalItemLink);
 
     parentDiv.append(titleElementDiv);
 
@@ -213,9 +222,10 @@ export function addAristotle(options) {
     let url;
 
     if (options.hasOwnProperty('url')) {
-        url =options.url;
+        url = options.url;
     } else {
-        console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.", 'color: Orange');
+        console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.",
+            'color: Orange');
     }
 
     let theme = Object.is(options.theme, undefined) ? 'light-border' : options.theme;
