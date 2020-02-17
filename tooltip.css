@@ -1,16 +1,16 @@
 .see-more-link {
-   /* Push the see more link right */
-   text-align: right;
+    /* Push the see more link right */
+    text-align: right;
 }
 
 .aristotle-logo {
-   vertical-align: middle;
+    vertical-align: middle;
 }
 
 .external-link {
-   display: inline-block;
-   width: 1em;
-   height: auto;
+    display: inline-block;
+    width: 1em;
+    height: auto;
 }
 
 .tippy-tooltip {
@@ -19,10 +19,10 @@
    word-wrap: break-word;
 }
 
-@media (min-width: 1024px) {
-   .tippy-tooltip {
-      font-size: 0.8rem;
-   }
+@media (min-device-width: 480px) {
+    .tippy-tooltip {
+        font-size: 0.8rem;
+    }
 
 }
 
