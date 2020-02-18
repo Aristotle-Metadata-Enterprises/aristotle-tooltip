@@ -4,7 +4,7 @@
   "description": "Aristotle Tooltip: add Aristotle functionality to any website!",
   "main": "dist/aristotle_tooltip.js",
   "scripts": {
-    "test": "mocha",
+    "test": "karma start karma.conf.js --single-run",
     "lint": "eslint --ext .js ./src/",
     "build-dev": "webpack --config webpack.dev.js --watch",
     "build-prod": "webpack --config webpack.prod.js"
