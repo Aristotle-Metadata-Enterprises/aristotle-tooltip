@@ -1,12 +1,9 @@
 ---
 title: Aristotle Tooltip demo
-hello: hi
 ---
 # Demo
 
 # {{ page.title }}
-
-# {{ page.hello }}
 
 Content is written in [Markdown](https://learnxinyminutes.com/docs/markdown/). Plain text format allows you to focus on your **content**.
 
@@ -75,13 +72,20 @@ addAristotle(options);
 ```
 
 ## Options
-| Tables        | Default           | Explanation  |
-| ------------- |:-------------:| -----:|
-| `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
-| `definitionWords`      | 50      |  The number of words to display in the initial popup  |
-| `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed |
-| `placement`            | `bottom`|  The positioning of the Tooltip. |
-| `externalLinkVisible`  | `true`  |  Whether to display an external link icon next to the name of the metadata item |
+
+|-----------------+------------+-----------------|
+|      Option     |   Default  |   Explanation   |
+|-----------------|:----------:|----------------:|
+| `url`           |`registry.aristotlemetadata.com` | The **URL** of an Aristotle Metadata Registry.      |
+|-----------------+------------+-----------------|
+| `definitionWords` |     50   | The number of words to display in the initial popup.   |
+|-----------------+------------+-----------------|
+| `longDefinitionWords` |     75   | The number of words to display when 'see more..' is pressed.     |
+|-----------------+------------+-----------------|
+| `placement` |     `bottom`   | The positioning of the Tooltip.     |
+|-----------------+------------+-----------------|
+| `externalLinkVisible` |     `true`   | Whether to display an external link icon next to the name of the metadata item.|
+|-----------------+------------+-----------------|
 
 ## Setting up a Development Environment
 We're an open source project that welcomes any new contributions. To setup a development environment, simply fork the repo, clone it locally, and from within the `aristotle-tooltip` project, run:
@@ -89,4 +93,6 @@ We're an open source project that welcomes any new contributions. To setup a dev
 oscar@aristotle:~$ npm install . 
 oscar@aristotle:~$ npm run build-dev
 ```
+
+## Demo
 

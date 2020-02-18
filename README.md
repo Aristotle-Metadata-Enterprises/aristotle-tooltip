@@ -51,7 +51,7 @@ addAristotle(options);
 ```
 
 ## Options
-| Tables        | Default           | Explanation  |
+| Option        | Default           | Explanation  |
 | ------------- |:-------------:| -----:|
 | `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
 | `definitionWords`      | 50      |  The number of words to display in the initial popup  |

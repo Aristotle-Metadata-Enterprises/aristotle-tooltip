@@ -9,3 +9,7 @@
 @media screen and (min-width: 64em) { .aristotle-background { padding: 5rem 6rem; } }
 @media screen and (min-width: 42em) and (max-width: 64em) { .aristotle-background { padding: 3rem 4rem; } }
 @media screen and (max-width: 42em) { .aristotle-background { padding: 2rem 1rem; } }
+
+table {
+  display: table !important;
+}
