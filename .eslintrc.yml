@@ -9,4 +9,8 @@ globals:
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
-rules: {}
+rules: {
+         "max-len": [1, 120, 4],
+         "require-jsdoc": "off",
+         "valid-jsdoc": "off",
+}
