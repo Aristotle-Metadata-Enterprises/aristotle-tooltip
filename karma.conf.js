@@ -3,13 +3,12 @@ const webpack = require('webpack');
 
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
-
 module.exports = function (config) {
     config.set({
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['mocha'],
-        browsers: ['ChromeHeadlessNoSandbox'],
+        browsers: ['ChromeHeadless'],
 
         // list of files / patterns to load in the browser
         files: [
@@ -37,10 +36,6 @@ module.exports = function (config) {
 
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
-
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: [],
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
