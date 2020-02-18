@@ -15,7 +15,6 @@
   },
   "keywords": [],
   "author": "ACSA <enquiries@aristotlemetadata.com> (https://aristotlemetadata.com)",
-  "private": true,
   "license": "BSD-3 Clause",
   "bugs": {
     "url": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/issues"
