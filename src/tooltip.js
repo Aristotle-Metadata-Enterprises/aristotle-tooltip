@@ -3,7 +3,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import axios from 'axios';
 
-import '../tooltip.css';
+import './tooltip.css';
 import {getItemLink, getTextUpToStringPattern, objectAttributeToggler, stripHtmlTags, truncateText} from './utils.js';
 import aristotleLogo from './aris_logo_small.png';
 import externalLinkSvg from './external-link-alt.svg';
