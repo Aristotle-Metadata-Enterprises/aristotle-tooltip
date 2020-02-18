@@ -1,5 +1,5 @@
 {
-  "name": "aristotle_tooltip",
+  "name": "@aristotle-metadata-enterprises/aristotle_tooltip",
   "version": "0.0.3",
   "description": "Aristotle Tooltip: add Aristotle functionality to any website!",
   "main": "dist/aristotle_tooltip.js",
