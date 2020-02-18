@@ -10,6 +10,7 @@
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
 - :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
 - :mouse: Light: weighs just 60kb, including image assets.
+- :dog: Dogfooded: This library is used in our production Aristotle Registries. Updates guaranteed!
 
 ## Example
 ![Image](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/blob/master/image.png?raw=true)
@@ -44,7 +45,6 @@ let options = {
   'url': 'https://registry.aristotlemetadata.com',
   'definitionWords': 50,
   'longDefinitionWords': 75,
-  'displayExternalLink': true,
 };
 addAristotle(options);
 
@@ -55,8 +55,9 @@ addAristotle(options);
 | ------------- |:-------------:| -----:|
 | `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
 | `definitionWords`      | 50      |  The number of words to display in the initial popup  |
-| `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed
-| `displayExternalLink` | `true`      | Whether to display an external link icon next to the name of the metadata item |
+| `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed |
+| `placement`            | `bottom`|  The positioning of the Tooltip. |
+| `externalLinkVisible`  | `true`  |  Whether to display an external link icon next to the name of the metadata item |
 
 ## Setting up a Development Environment
 We're an open source project that welcomes any new contributions. To setup a development environment, simply fork the repo, clone it locally, and from within the `aristotle-tooltip` project, run:
