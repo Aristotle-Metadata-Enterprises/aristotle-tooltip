@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-    entry: './index.js',
+    entry: './src/index.js',
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({

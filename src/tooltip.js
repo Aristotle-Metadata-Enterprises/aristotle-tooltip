@@ -3,7 +3,7 @@ import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light-border.css'
 import axios from 'axios'
 
-import './tooltip.css'
+import '../tooltip.css'
 import {getItemLink, getTextUpToStringPattern, objectAttributeToggler, stripHtmlTags, truncateText} from './utils.js'
 import aristotle_logo from './aris_logo_small.png';
 import externalLinkSvg from './external-link-alt.svg';
@@ -230,9 +230,9 @@ function _toggleAristotleTooltipContent(instance) {
  * NOTE: required options are marked with an asterisk (*).
  */
 export function addAristotle(options) {
-
+    let url = '';
     if (options.hasOwnProperty('url')) {
-        let url = options.url;
+        url = options.url;
     } else {
         console.warn("%c Aristotle Tooltip Error: A url must be provided as an option.",
             'color: Orange');
