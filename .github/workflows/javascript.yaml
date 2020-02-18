@@ -1,4 +1,4 @@
-name: Javascript]
+name: Javascript
 on: [push]
 jobs:
   javascript_lint:
