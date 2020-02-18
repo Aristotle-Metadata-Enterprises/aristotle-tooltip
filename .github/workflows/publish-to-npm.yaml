@@ -19,5 +19,8 @@ jobs:
           cd dist
           npm run build-prod
       - name: Publish to NPM
-        run: echo "Publishing"
+        run: npm publish
+
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         
