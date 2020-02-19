@@ -34,7 +34,8 @@ This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 
 ### CDN
 ```html
-<script src="https://cdn.jsdelivr.net/npm/aristotle_tooltip@1/dist/aristotle-tooltip.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.css">
 ```
 Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
 

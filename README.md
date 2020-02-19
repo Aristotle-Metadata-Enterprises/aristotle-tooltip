@@ -1,3 +1,6 @@
+![Javascript Tests](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/workflows/Javascript/badge.svg)
+![Publish to NPM](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/workflows/Publish%20to%20NPM/badge.svg)
+
 <div align="center">
   <img alt="Aristotle Cloud Services Australia" src="https://brand.aristotlemetadata.com/images/pngs/base/base.256.png" height="117" />
 </div>
@@ -30,7 +33,8 @@ This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 
 ### CDN
 ```html
-<script src="https://cdn.jsdelivr.net/npm/aristotle_tooltip@1/dist/aristotle-tooltip.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.css">
 ```
 Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
 
