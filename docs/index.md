@@ -42,7 +42,7 @@ Place them at the very bottom of the `<body>`. They must be placed before your o
 ### Usage
 To add a tooltip for a piece of content on your webpage
 ```html
-A <a href="#" data-aristotle-id="498427">person<a> is known by the company they keep
+A <a href="#" data-aristotle-concept-id="498427">person<a> is known by the company they keep
 ```
 ### Setup
 ```javascript

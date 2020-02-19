@@ -45,11 +45,11 @@ function handleError(error) {
 
 function createTippyElements(baseURL, definitionWords, longDefinitionWords, placement) {
   // Select all elements that contain an aristotle id
-  const elements = document.querySelectorAll('[data-aristotle-id]');
+  const elements = document.querySelectorAll('[data-aristotle-concept-id]');
 
   // Create a Tippy object for each element that has an attached aristotle id:
   for (const element of elements) {
-    const aristotleId = element.dataset.aristotleId;
+    const aristotleId = element.dataset.aristotleConceptId;
     tippy(element, {
       allowHTML: false, // For better security
       content: 'Loading...',
@@ -57,7 +57,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
       interactive: true,
       theme: 'light-border',
       trigger: 'click',
-      placement: 'bottom',
+      placement: placement,
       onCreate(instance) {
         // Keep track of state
         instance._isFetching = false;
@@ -225,7 +225,7 @@ function _toggleAristotleTooltipContent(instance) {
  *           definitionWords - Number of words included in the tooltip. Defaults to 50 words.
  *           longDefinitionWords - Number of words included in the long definition version of the tooltip.
  *               The "See more..." option will not be visible if this option is not included.
- *           position - positioning of the tooltip. Defaults to 'bottom'.
+ *           placement - positioning of the tooltip. Defaults to 'bottom'.
  *           externalLinkVisible - Whether or not to display the external item link page
  *
  *
@@ -242,6 +242,7 @@ export function addAristotle(options) {
   }
   const definitionWords = Object.is(options.definitionWords, undefined) ? 50 : options.definitionWords;
   const longDefinitionWords = options.longDefinitionWords;
+  const placement = Object.is(options.placement, undefined) ? 'bottom' : options.placement;
 
-  createTippyElements(url, definitionWords, longDefinitionWords);
+  createTippyElements(url, definitionWords, longDefinitionWords, placement);
 }
