@@ -49,7 +49,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
 
   // Create a Tippy object for each element that has an attached aristotle id:
   for (const element of elements) {
-    const aristotleId = element.dataset.aristotleId;
+    const aristotleId = element.dataset.aristotleConceptId;
     tippy(element, {
       allowHTML: false, // For better security
       content: 'Loading...',
