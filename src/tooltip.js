@@ -10,13 +10,13 @@ import externalLinkSvg from './external-link-alt.svg';
 
 
 function makeRequest(baseUrl, aristotleId) {
-    /** Make an axios request to concept API
-     * @param {String} baseUrl - the Aristotle Metadata Registry to request
-     * @param {Integer} aristotleId - the id of the concept to request
-     */
-    baseUrl === undefined ? baseUrl = '' : null;
-    const url = `${baseUrl}/api/v4/item/${aristotleId}/`;
-    return axios.get(url);
+  /** Make an axios request to concept API
+   * @param {String} baseUrl - the Aristotle Metadata Registry to request
+   * @param {Integer} aristotleId - the id of the concept to request
+   */
+  baseUrl === undefined ? baseUrl = '' : null;
+  const url = baseUrl + '/api/v4/item/' + aristotleId;
+  return axios.get(url);
 }
 
 function handleError(error) {
@@ -48,7 +48,8 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
   const elements = document.querySelectorAll('[data-aristotle-concept-id]');
 
   // Create a Tippy object for each element that has an attached aristotle id:
-  for (const element of elements) {
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
     const aristotleId = element.dataset.aristotleConceptId;
     tippy(element, {
       allowHTML: false, // For better security
@@ -58,19 +59,19 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
       theme: 'light-border',
       trigger: 'click',
       placement: placement,
-      onCreate(instance) {
+      onCreate: function(instance) {
         // Keep track of state
         instance._isFetching = false;
         instance._hasFailed = null;
         instance._hasSuceeded = null;
       },
-      onShow(instance) {
+      onShow: function(instance) {
         if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
           return;
         }
         instance._isFetching = true;
 
-        makeRequest(baseURL, aristotleId).then((response) => {
+        makeRequest(baseURL, aristotleId).then(function(response) {
           // The response was successful
 
           let definition = response.data['definition'];
@@ -86,7 +87,7 @@ function createTippyElements(baseURL, definitionWords, longDefinitionWords, plac
 
           setHTMLContent(instance);
           instance._hasSuceeded = true;
-        }).catch((error) => {
+        }).catch(function(error) {
           // The response failed
           const errorMsg = handleError(error);
           instance.setContent(errorMsg);
