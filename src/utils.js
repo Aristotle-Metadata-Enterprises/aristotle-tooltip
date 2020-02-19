@@ -47,14 +47,14 @@ export function objectAttributeToggler(instance, attribute) {
 
 /**
  * Util function to get a truncated version of a String.
- * @param text
- * @param numberOfWords
- * @return {*}
+ * @param text String that needs to be truncated.
+ * @param numberOfWords Number Required for the truncated version of the text.
+ * @return {String}
  */
 export function truncateText(text, numberOfWords) {
-  let truncatedText = text.split(' ').splice(0, numberOfWords).join(' ');
-  if (text.length > numberOfWords) {
-    truncatedText += '...';
+  if (text.split(' ').length > numberOfWords) {
+    return text.split(' ').splice(0, numberOfWords).join(' ') + '...';
+  } else {
+    return text;
   }
-  return truncatedText;
 }
