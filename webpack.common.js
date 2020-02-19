@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/tooltip.js',
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -43,8 +43,7 @@ module.exports = {
     },
     output: {
         filename: "tooltip.js",
-        libraryTarget: "umd",
-        library: "aristotle_tooltip",
+        library: "aristotleTooltip",
         path: path.resolve(__dirname, "dist"),
 
     },
