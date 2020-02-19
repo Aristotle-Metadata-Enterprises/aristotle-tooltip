@@ -9,7 +9,15 @@ module.exports = function (config) {
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['mocha'],
         browsers: ['ChromeHeadless'],
-
+        reporters: ['mocha'],
+        mochaReporter: {
+            colors: {
+                success: 'green',
+                info: 'blue',
+                warning: 'yellow',
+                error: 'red',
+            }
+        },
         // list of files / patterns to load in the browser
         files: [
             {pattern: 'test/*_test.js', watched: false},
@@ -21,11 +29,6 @@ module.exports = function (config) {
             'test/*_test.js': ['webpack'],
             'test/**/*_test.js': ['webpack'],
         },
-
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['progress'],
 
         // enable / disable colors in the output (reporters and logs)
         colors: true,
