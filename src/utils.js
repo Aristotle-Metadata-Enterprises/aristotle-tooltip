@@ -47,9 +47,9 @@ export function objectAttributeToggler(instance, attribute) {
 
 /**
  * Util function to get a truncated version of a String.
- * @param text
- * @param numberOfWords
- * @return {*}
+ * @param text String that needs to be truncated.
+ * @param numberOfWords Number Required for the truncated version of the text.
+ * @return {String}
  */
 export function truncateText(text, numberOfWords) {
   if (text.split(' ').length > numberOfWords) {
