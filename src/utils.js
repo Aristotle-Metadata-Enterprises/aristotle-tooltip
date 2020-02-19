@@ -16,7 +16,7 @@ export function getItemLink(baseUrl, aristotleId) {
 export function stripHtmlTags(text) {
   const div = document.createElement('div');
   div.innerHTML = text;
-  return div.textContent || div.innerText || '';
+  return div.textContent.trim() || div.innerText.trim() || '';
 }
 
 /**
