@@ -50,7 +50,7 @@ let options = {
   'definitionWords': 50,
   'longDefinitionWords': 75,
 };
-addAristotle(options);
+aristotleTooltip.addAristotle(options);
 
 ```
 
