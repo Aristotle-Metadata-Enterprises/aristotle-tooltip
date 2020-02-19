@@ -1,3 +1,6 @@
+![Javascript Tests](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/workflows/Javascript/badge.svg)
+![Publish to NPM](https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip/workflows/Publish%20to%20NPM/badge.svg)
+
 <div align="center">
   <img alt="Aristotle Cloud Services Australia" src="https://brand.aristotlemetadata.com/images/pngs/base/base.256.png" height="117" />
 </div>

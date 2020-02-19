@@ -1,23 +1,6 @@
 ---
-title: Aristotle Tooltip demo
+title: Aristotle Tooltip Demo
 ---
-# Demo
-
-# {{ page.title }}
-
-Content is written in [Markdown](https://learnxinyminutes.com/docs/markdown/). Plain text format allows you to focus on your **content**.
-
-<!--
-You can use HTML elements in Markdown, such as the comment element, and they won't be affected by a markdown parser. However, if you create an HTML element in your markdown file, you cannot use markdown syntax within that element's contents.
--->
-
-Lorem ipsum dolor sit amet.
-
-{% include button.html url="http://www.google.com" %}
-
-
-Lorem ipsum dolor sit amet.
-
 
 <div align="center">
   <img alt="Aristotle Cloud Services Australia" src="https://brand.aristotlemetadata.com/images/pngs/base/base.256.png" height="117" />
