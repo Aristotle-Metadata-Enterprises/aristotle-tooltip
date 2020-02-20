@@ -62,8 +62,6 @@ addAristotle(options);
 |-----------------|:----------:|----------------:|
 | `url`           |`registry.aristotlemetadata.com` | The **URL** of an Aristotle Metadata Registry.      |
 |-----------------+------------+-----------------|
-| `theme`         |`light-border style` | CSS theme used to style the Aristotle tooltip objects.   |
-|-----------------+------------+-----------------|
 | `definitionWords` |     50   | The number of words to display in the initial popup.   |
 |-----------------+------------+-----------------|
 | `longDefinitionWords` |     75   | The number of words to display when 'see more..' is pressed.     |
