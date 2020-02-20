@@ -99,7 +99,6 @@ function createTippyElements(options) {
 
                     setHTMLContent(instance);
                     instance._hasSuceeded = true;
-
                 }).catch(function(error) {
                     // The response failed
                     const errorMsg = handleError(error);
