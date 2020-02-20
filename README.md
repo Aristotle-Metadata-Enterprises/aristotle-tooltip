@@ -11,7 +11,7 @@
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
-- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
+- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of mobile users.
 - :mouse: Light: weighs just 60kb, including image assets.
 - :dog: Dogfooded: This library is used in our production Aristotle Registries. Updates guaranteed!
 
@@ -33,7 +33,7 @@ This assumes you're using a module bundler like webpack, Rollup, or Parcel.
 
 ### CDN
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/aristotletooltip.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.css">
 ```
 Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
@@ -50,7 +50,7 @@ let options = {
   'definitionWords': 50,
   'longDefinitionWords': 75,
 };
-aristotleTooltip.addAristotle(options);
+aristotleTooltip(options);
 
 ```
 
