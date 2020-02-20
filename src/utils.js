@@ -67,10 +67,10 @@ export function truncateText(text, numberOfWords) {
  * @returns {Object} Object-type data structure with combined key value pairs from both dictionaries.
  */
 export function mergeObjects(o1, o2) {
-    return [o1, o2].reduce(function (result, current) {
-        Object.keys(current).forEach(function (key) {
+    return [o1, o2].reduce(function(result, current) {
+        Object.keys(current).forEach(function(key) {
             result[key] = current[key];
         });
         return result;
-        }, {});
+    }, {});
 }
