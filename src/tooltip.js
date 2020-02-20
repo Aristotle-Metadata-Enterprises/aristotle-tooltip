@@ -17,13 +17,13 @@ import externalLinkSvg from './external-link-alt.svg';
 
 
 function makeRequest(baseUrl, aristotleId) {
-    /** Make an axios request to concept API
-     * @param {String} baseUrl - the Aristotle Metadata Registry to request
-     * @param {Integer} aristotleId - the id of the concept to request
-     */
-    baseUrl === undefined ? baseUrl = '' : null;
-    const url = `${baseUrl}/api/v4/item/${aristotleId}/`;
-    return axios.get(url);
+  /** Make an axios request to concept API
+   * @param {String} baseUrl - the Aristotle Metadata Registry to request
+   * @param {Integer} aristotleId - the id of the concept to request
+   */
+  baseUrl === undefined ? baseUrl = '' : null;
+  const url = baseUrl + '/api/v4/item/' + aristotleId;
+  return axios.get(url);
 }
 
 function handleError(error) {
@@ -50,6 +50,7 @@ function handleError(error) {
     return errorMsg;
 }
 
+<<<<<<< HEAD
 function createTippyElements(options) {
     // Select all elements that contain an aristotle id
     const elements = document.querySelectorAll('[data-aristotle-concept-id]');
@@ -111,6 +112,62 @@ function createTippyElements(options) {
         };
         tippy(element, mergeObjects(staticOptions, dynamicOptions));
     }
+=======
+function createTippyElements(baseURL, definitionWords, longDefinitionWords, placement) {
+  // Select all elements that contain an aristotle id
+  const elements = document.querySelectorAll('[data-aristotle-concept-id]');
+
+  // Create a Tippy object for each element that has an attached aristotle id:
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+    const aristotleId = element.dataset.aristotleConceptId;
+    tippy(element, {
+      allowHTML: false, // For better security
+      content: 'Loading...',
+      flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
+      interactive: true,
+      theme: 'light-border',
+      trigger: 'click',
+      placement: placement,
+      onCreate: function(instance) {
+        // Keep track of state
+        instance._isFetching = false;
+        instance._hasFailed = null;
+        instance._hasSuceeded = null;
+      },
+      onShow: function(instance) {
+        if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
+          return;
+        }
+        instance._isFetching = true;
+
+        makeRequest(baseURL, aristotleId).then(function(response) {
+          // The response was successful
+
+          let definition = response.data['definition'];
+          instance.name = response.data['name'];
+          definition = getTextUpToStringPattern(definition, '<table>');
+          definition = getTextUpToStringPattern(definition, '<ul>');
+          definition = getTextUpToStringPattern(definition, '<ol>');
+          definition = stripHtmlTags(definition);
+          instance.definition = truncateText(definition, longDefinitionWords);
+          instance.shortDefinition = response.data['short_definition'];
+          instance.itemLink = getItemLink(baseURL, aristotleId);
+          instance._see_more = false;
+
+          setHTMLContent(instance);
+          instance._hasSuceeded = true;
+        }).catch(function(error) {
+          // The response failed
+          const errorMsg = handleError(error);
+          instance.setContent(errorMsg);
+          instance._hasFailed = true;
+        });
+        instance._isFetching = false;
+      },
+    });
+  }
+>>>>>>> 26f2c438a25e5b622abed0391255e3a81a05295a
 }
 
 function setHTMLContent(instance) {
