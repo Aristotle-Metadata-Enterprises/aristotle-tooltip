@@ -232,7 +232,7 @@ function _toggleAristotleTooltipContent(instance) {
  *
  * NOTE: required options are marked with an asterisk (*).
  */
-export function addAristotle(options) {
+export default function addAristotle(options) {
   let url = '';
   if (options.hasOwnProperty('url')) {
     url = options.url;
