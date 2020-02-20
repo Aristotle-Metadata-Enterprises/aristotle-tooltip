@@ -18,9 +18,9 @@ import externalLinkSvg from './external-link-alt.svg';
 
 function makeRequest(baseUrl, aristotleId) {
     /** Make an axios request to concept API
-   * @param {String} baseUrl - the Aristotle Metadata Registry to request
-   * @param {Integer} aristotleId - the id of the concept to request
-   */
+     * @param {String} baseUrl - the Aristotle Metadata Registry to request
+     * @param {Integer} aristotleId - the id of the concept to request
+     */
     baseUrl === undefined ? baseUrl = '' : null;
     const url = baseUrl + '/api/v4/item/' + aristotleId;
     return axios.get(url);
@@ -64,8 +64,7 @@ function createTippyElements(options) {
         onCreate: function(instance) {
             // Keep track of state
             instance._isFetching = false;
-            instance._hasFailed = null;
-            instance._hasSuceeded = null;
+            instance._hasSucceeded = null;
         },
     };
 
@@ -74,13 +73,12 @@ function createTippyElements(options) {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const aristotleId = element.dataset.aristotleConceptId;
-
         const dynamicOptions = {
-            theme: options.theme,
+            theme: 'light-border',
             placement: options.placement,
             trigger: options.trigger,
             onShow: function(instance) {
-                if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
+                if (instance._isFetching || instance._hasSucceeded) {
                     return;
                 }
                 instance._isFetching = true;
@@ -97,15 +95,13 @@ function createTippyElements(options) {
                     instance.itemLink = getItemLink(options.url, aristotleId);
                     instance._see_more = false;
                     instance.externalLinkVisible = options.externalLinkVisible;
-
+                    instance._hasSucceeded = true;
                     setHTMLContent(instance);
-                    instance._hasSuceeded = true;
-
                 }).catch(function(error) {
                     // The response failed
                     const errorMsg = handleError(error);
+                    instance._hasSucceeded = false;
                     instance.setContent(errorMsg);
-                    instance._hasFailed = true;
                 });
                 instance._isFetching = false;
             },
@@ -145,7 +141,10 @@ function createTooltipBody(instance) {
     const seeMoreDiv = document.createElement('div');
     const seeMoreLessLink = document.createElement('a');
     seeMoreLessLink.classList.add('see-more-link');
-    seeMoreLessLink.addEventListener('click', _toggleAristotleTooltipContent.bind(event, instance));
+    seeMoreLessLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        _toggleAristotleTooltipContent(instance);
+    });
     seeMoreLessLink.href = '#';
 
     if (instance._see_more) {
@@ -167,7 +166,7 @@ function createTooltipBody(instance) {
     seeMoreDiv.appendChild(seeMoreLessLink);
     seeMoreDiv.classList.add('see-more-link');
 
-    if (instance.definition.length !== instance.shortDefinition.length) {
+    if (instance._hasSucceeded && instance.definition.length !== instance.shortDefinition.length) {
         wrapperDiv.appendChild(seeMoreDiv);
     }
 
@@ -267,8 +266,5 @@ export default function addAristotle(options) {
         'trigger': 'mouseenter focus',
         'externalLinkVisible': true,
     };
-
-    const mergedOptions = mergeObjects(defaultOptions, options);
-
-    createTippyElements(mergedOptions);
+    createTippyElements(mergeObjects(defaultOptions, options));
 }
