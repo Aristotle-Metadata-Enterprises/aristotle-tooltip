@@ -11,6 +11,7 @@ parserOptions:
   sourceType: module
 rules: {
          "max-len": [1, 120, 4],
+         "indent": ["error", 4],
          "require-jsdoc": "off",
          "valid-jsdoc": "off",
 }
