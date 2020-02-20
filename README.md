@@ -11,7 +11,7 @@
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
-- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
+- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of mobile users.
 - :mouse: Light: weighs just 60kb, including image assets.
 - :dog: Dogfooded: This library is used in our production Aristotle Registries. Updates guaranteed!
 
