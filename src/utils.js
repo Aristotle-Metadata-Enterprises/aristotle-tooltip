@@ -5,7 +5,7 @@
  * @return {string}
  */
 export function getItemLink(baseUrl, aristotleId) {
-  return baseUrl + '/item/' + aristotleId + '/';
+    return baseUrl + '/item/' + aristotleId + '/';
 }
 
 /**
@@ -14,9 +14,9 @@ export function getItemLink(baseUrl, aristotleId) {
  * @return {string} Stripped version of the string object.
  */
 export function stripHtmlTags(text) {
-  const div = document.createElement('div');
-  div.innerHTML = text;
-  return div.textContent.trim() || div.innerText.trim() || '';
+    const div = document.createElement('div');
+    div.innerHTML = text;
+    return div.textContent.trim() || div.innerText.trim() || '';
 }
 
 /**
@@ -27,13 +27,13 @@ export function stripHtmlTags(text) {
  * @return {string|*} A string containing the extracted section of the string.
  */
 export function getTextUpToStringPattern(text, pattern) {
-  const index = text.search(pattern);
+    const index = text.search(pattern);
 
-  if (index !== -1) {
-    return text.substring(0, index);
-  } else {
-    return text;
-  }
+    if (index !== -1) {
+        return text.substring(0, index);
+    } else {
+        return text;
+    }
 }
 
 /**
@@ -42,7 +42,7 @@ export function getTextUpToStringPattern(text, pattern) {
  * @param attribute String representation of the object's attribute to be toggled.
  */
 export function objectAttributeToggler(instance, attribute) {
-  instance[attribute] = !instance[attribute];
+    instance[attribute] = !instance[attribute];
 }
 
 /**
@@ -52,9 +52,26 @@ export function objectAttributeToggler(instance, attribute) {
  * @return {String}
  */
 export function truncateText(text, numberOfWords) {
-  if (text.split(' ').length > numberOfWords) {
-    return text.split(' ').splice(0, numberOfWords).join(' ') + '...';
-  } else {
-    return text;
-  }
+    if (text.split(' ').length > numberOfWords) {
+        return text.split(' ').splice(0, numberOfWords).join(' ') + '...';
+    } else {
+        return text;
+    }
+}
+
+/**
+ * The purpose of this function is to combine two JavaScript objects into a single data structure.
+ * NOTE: Repeated Keys will be overridden by Object 2 in the final output.
+ * Thanks to Harry White and https://stackoverflow.com/questions/43449788/how-do-i-merge-two-dictionaries-in-javascript/43449825
+ * @param o1 Object 1 to be merged.
+ * @param o2 Object 2 to be merged.
+ * @returns {Object} Object-type data structure with combined key value pairs from both dictionaries.
+ */
+export function mergeObjects(o1, o2) {
+    return [o1, o2].reduce(function (result, current) {
+        Object.keys(current).forEach(function (key) {
+            result[key] = current[key];
+        });
+        return result;
+        }, {});
 }

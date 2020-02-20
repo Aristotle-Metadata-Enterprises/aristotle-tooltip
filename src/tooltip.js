@@ -4,7 +4,14 @@ import 'tippy.js/themes/light-border.css';
 import axios from 'axios';
 
 import './tooltip.css';
-import {getItemLink, getTextUpToStringPattern, objectAttributeToggler, stripHtmlTags, truncateText} from './utils.js';
+import {
+    getItemLink,
+    getTextUpToStringPattern,
+    objectAttributeToggler,
+    stripHtmlTags,
+    truncateText,
+    mergeObjects
+} from './utils.js';
 import aristotleLogo from './aris_logo_small.png';
 import externalLinkSvg from './external-link-alt.svg';
 
@@ -65,9 +72,9 @@ function createTippyElements(options) {
     for (const element of elements) {
         const aristotleId = element.dataset.aristotleConceptId;
         let dynamicOptions = {
-            theme: 'light-border',
+            theme: options.theme,
             placement: options.placement,
-            // trigger: 'focusin',
+            trigger: options.trigger,
             onShow(instance) {
                 if (instance._isFetching || instance._hasFailed || instance._hasSuceeded) {
                     return;
@@ -85,6 +92,7 @@ function createTippyElements(options) {
                     instance.shortDefinition = response.data['short_definition'];
                     instance.itemLink = getItemLink(options.url, aristotleId);
                     instance._see_more = false;
+                    instance.externalLinkVisible = options.externalLinkVisible;
 
                     setHTMLContent(instance);
                     instance._hasSuceeded = true;
@@ -96,27 +104,33 @@ function createTippyElements(options) {
                 });
                 instance._isFetching = false;
             },
+            onHidden(instance) {
+                instance._see_more = false;
+                setHTMLContent(instance);
+            }
         };
-        tippy(element, Object.assign({}, staticOptions, dynamicOptions));
+        tippy(element, mergeObjects(staticOptions, dynamicOptions));
     }
 }
 
 function setHTMLContent(instance) {
     // Build and set the HTML content for the tooltip
     const wrapperDiv = document.createElement('div');
-    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink));
+    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink, instance.externalLinkVisible));
     wrapperDiv.appendChild(createTooltipBody(instance));
     wrapperDiv.appendChild(createTooltipFooter(instance.itemLink));
     instance.setContent(wrapperDiv);
 }
 
-function createTooltipHeader(itemName, url) {
+function createTooltipHeader(itemName, url, externalLinkVisible) {
     const wrapperDiv = document.createElement('div');
     const strongTag = document.createElement('strong');
     const externalItemLink = createExternalItemLink(url);
     strongTag.appendChild(document.createTextNode(itemName + ' '));
     wrapperDiv.appendChild(strongTag);
-    wrapperDiv.appendChild(externalItemLink);
+    if (externalLinkVisible) {
+        wrapperDiv.appendChild(externalItemLink);
+    }
     return wrapperDiv;
 }
 
@@ -130,7 +144,7 @@ function createTooltipBody(instance) {
     seeMoreLessLink.href = '#';
 
     if (instance._see_more) {
-        seeMoreLessLink.appendChild(document.createTextNode('...see less'));
+        // seeMoreLessLink.appendChild(document.createTextNode('...see less'));
 
         let definitionText;
 
@@ -223,25 +237,37 @@ function _toggleAristotleTooltipContent(instance) {
  * This is the main route through which users will interact with Aristotle Tooltip.
  * @param options Object containing the options available to configure the Aristotle tooltip.
  *
- *         * url - URL address used to fetch definitions from.
- *         theme - CSS theme used to style the Aristotle tooltip objects. Defaults to light-border style.
- *         definitionWords - Number of words included in the tooltip. Defaults to 50 words.
- *         longDefinitionWords - Number of words included in the long definition version of the tooltip.
+ *       url - URL address used to fetch definitions from. If this option is omitted, it is assumed that we are
+ *             referencing a concept retrieved from the current domain url.
+ *
+ *       definitionWords - Number of words included in the tooltip. Defaults to 50 words.
+ *
+ *       longDefinitionWords - Number of words included in the long definition version of the tooltip.
  *             The "See more..." option will not be visible if this option is not included.
- *         placement - positioning of the tooltip. Defaults to 'bottom'.
- *         externalLinkVisible - Whether or not to display the external item link page
  *
+ *       placement - positioning of the tooltip. Defaults to 'bottom'.
  *
+ *       theme - CSS theme used to style the Aristotle tooltip objects. Defaults to 'light-border' style.
  *
- * NOTE: required options are marked with an asterisk (*).
+ *       trigger - Event used to trigger the tooltip. Defaults to 'mouseenter focus'.
+ *
+ *       externalLinkVisible - Whether or not to display the external item link page at the top of the tooltip.
+ *             Defaults to 'true'.
+ *
  */
 export function addAristotle(options) {
 
     const defaultOptions = {
         'url': '',
         'definitionWords': 50,
+        'longDefinitionWords': 75,
         'placement': 'bottom',
+        'theme': 'light-border',
+        'trigger': 'mouseenter focus',
+        'externalLinkVisible': true,
     };
 
-    createTippyElements(Object.assign({}, defaultOptions, options));
+    let mergedOptions = mergeObjects(defaultOptions, options);
+
+    createTippyElements(mergedOptions);
 }
