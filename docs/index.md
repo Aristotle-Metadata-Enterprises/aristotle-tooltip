@@ -10,6 +10,14 @@ title: Aristotle Tooltip Demo
   <p>A highly customisable and easy to use way to insert Aristotle powered definitions to your website!</p>
 </div>
 
+## Demo
+
+A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %} is known by the company they keep
+
+A <a data-aristotle-id="498427">person</a> is known by the company they keep
+
+{% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
+
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
 - :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
@@ -77,11 +85,3 @@ We're an open source project that welcomes any new contributions. To setup a dev
 oscar@aristotle:~$ npm install . 
 oscar@aristotle:~$ npm run build-dev
 ```
-
-## Demo
-
-A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %} is known by the company they keep
-
-A <a data-aristotle-id="498427">person</a> is known by the company they keep
-
-{% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
