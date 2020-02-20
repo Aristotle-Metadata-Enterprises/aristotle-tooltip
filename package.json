@@ -6,8 +6,9 @@
   "scripts": {
     "test": "karma start karma.conf.js --single-run",
     "lint": "eslint --ext .js ./src/",
-    "build-dev": "webpack --config webpack.dev.js --watch",
-    "build-prod": "webpack --config webpack.prod.js"
+    "build:dev": "webpack --config webpack.dev.js --watch",
+    "build": "webpack --config webpack.prod.js",
+    "build:lib": "webpack --config webpack.module.js"
   },
   "repository": {
     "type": "git",

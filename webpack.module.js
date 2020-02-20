@@ -8,7 +8,6 @@ const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
    output: {
        libraryTarget: 'var',
        filename: 'aristotletooltip.js'
-
    },
      plugins: [
          new EsmWebpackPlugin()
