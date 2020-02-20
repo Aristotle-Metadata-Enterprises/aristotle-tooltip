@@ -18,9 +18,9 @@ import externalLinkSvg from './external-link-alt.svg';
 
 function makeRequest(baseUrl, aristotleId) {
     /** Make an axios request to concept API
-   * @param {String} baseUrl - the Aristotle Metadata Registry to request
-   * @param {Integer} aristotleId - the id of the concept to request
-   */
+     * @param {String} baseUrl - the Aristotle Metadata Registry to request
+     * @param {Integer} aristotleId - the id of the concept to request
+     */
     baseUrl === undefined ? baseUrl = '' : null;
     const url = baseUrl + '/api/v4/item/' + aristotleId;
     return axios.get(url);
@@ -74,7 +74,6 @@ function createTippyElements(options) {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const aristotleId = element.dataset.aristotleConceptId;
-
         const dynamicOptions = {
             theme: options.theme,
             placement: options.placement,
@@ -267,8 +266,5 @@ export default function addAristotle(options) {
         'trigger': 'mouseenter focus',
         'externalLinkVisible': true,
     };
-
-    const mergedOptions = mergeObjects(defaultOptions, options);
-
-    createTippyElements(mergedOptions);
+    createTippyElements(mergeObjects(defaultOptions, options));
 }
