@@ -42,8 +42,8 @@ module.exports = {
     output: {
         filename: "aristotletooltip.min.js",
         library: "aristotleTooltip",
+        libraryExport: 'default',
         libraryTarget: "umd",
         path: path.resolve(__dirname, "dist"),
-
     },
 };

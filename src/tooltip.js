@@ -245,3 +245,4 @@ export default function addAristotle(options) {
 
   createTippyElements(url, definitionWords, longDefinitionWords);
 }
+
