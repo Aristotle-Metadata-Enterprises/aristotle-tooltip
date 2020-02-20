@@ -1,7 +1,7 @@
 const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -13,7 +13,8 @@ module.exports = {
         new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false
-        })
+        }),
+        new CleanWebpackPlugin(),
     ],
     module: {
         rules: [
