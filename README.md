@@ -11,7 +11,7 @@
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
-- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of multiple users.
+- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of mobile users.
 - :mouse: Light: weighs just 60kb, including image assets.
 - :dog: Dogfooded: This library is used in our production Aristotle Registries. Updates guaranteed!
 
@@ -41,7 +41,7 @@ Place them at the very bottom of the `<body>`. They must be placed before your o
 ### Usage
 To add a tooltip for a piece of content on your webpage
 ```html
-A <a href="#" data-aristotle-id="498427">person</a> is known by the company they keep
+A <a href="#" data-aristotle-concept-id="498427">person</a> is known by the company they keep
 ```
 ### Setup
 ```javascript

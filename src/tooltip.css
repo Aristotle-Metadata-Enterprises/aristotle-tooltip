@@ -10,7 +10,7 @@
 .external-link {
     display: inline-block;
     width: 1em;
-    height: auto;
+    height: 1em;
 }
 
 .tippy-tooltip {
