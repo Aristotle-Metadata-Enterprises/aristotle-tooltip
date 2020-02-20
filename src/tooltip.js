@@ -57,6 +57,7 @@ function createTippyElements(options) {
     const staticOptions = {
         allowHTML: false, // For better security
         content: 'Loading...',
+        duration: [275, 1250],
         theme: 'light-border',
         flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
         interactive: true, // Because content in tooltips are also "clickable".
@@ -98,6 +99,7 @@ function createTippyElements(options) {
 
                     setHTMLContent(instance);
                     instance._hasSuceeded = true;
+
                 }).catch(function(error) {
                     // The response failed
                     const errorMsg = handleError(error);
@@ -255,7 +257,7 @@ function _toggleAristotleTooltipContent(instance) {
  *             Defaults to 'true'.
  *
  */
-export function addAristotle(options) {
+export default function addAristotle(options) {
     const defaultOptions = {
         'url': '',
         'definitionWords': 50,
