@@ -75,7 +75,7 @@ function createTippyElements(options) {
         const element = elements[i];
         const aristotleId = element.dataset.aristotleConceptId;
         const dynamicOptions = {
-            theme: options.theme,
+            theme: 'light-border',
             placement: options.placement,
             trigger: options.trigger,
             onShow: function(instance) {
