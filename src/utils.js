@@ -62,7 +62,8 @@ export function truncateText(text, numberOfWords) {
 /**
  * The purpose of this function is to combine two JavaScript objects into a single data structure.
  * NOTE: Repeated Keys will be overridden by Object 2 in the final output.
- * Thanks to Harry White and https://stackoverflow.com/questions/43449788/how-do-i-merge-two-dictionaries-in-javascript/43449825
+ * Thanks to Harry White and
+ * https://stackoverflow.com/questions/43449788/how-do-i-merge-two-dictionaries-in-javascript/43449825
  * @param o1 Object 1 to be merged.
  * @param o2 Object 2 to be merged.
  * @returns {Object} Object-type data structure with combined key value pairs from both dictionaries.

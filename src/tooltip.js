@@ -10,20 +10,20 @@ import {
     objectAttributeToggler,
     stripHtmlTags,
     truncateText,
-    mergeObjects
+    mergeObjects,
 } from './utils.js';
 import aristotleLogo from './aris_logo_small.png';
 import externalLinkSvg from './external-link-alt.svg';
 
 
 function makeRequest(baseUrl, aristotleId) {
-  /** Make an axios request to concept API
+    /** Make an axios request to concept API
    * @param {String} baseUrl - the Aristotle Metadata Registry to request
    * @param {Integer} aristotleId - the id of the concept to request
    */
-  baseUrl === undefined ? baseUrl = '' : null;
-  const url = baseUrl + '/api/v4/item/' + aristotleId;
-  return axios.get(url);
+    baseUrl === undefined ? baseUrl = '' : null;
+    const url = baseUrl + '/api/v4/item/' + aristotleId;
+    return axios.get(url);
 }
 
 function handleError(error) {
@@ -58,13 +58,13 @@ function createTippyElements(options) {
         allowHTML: false, // For better security
         content: 'Loading...',
         flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
-        interactive: true,  // Because content in tooltips are also "clickable".
+        interactive: true, // Because content in tooltips are also "clickable".
         onCreate: function(instance) {
             // Keep track of state
             instance._isFetching = false;
             instance._hasFailed = null;
             instance._hasSuceeded = null;
-            },
+        },
     };
 
 
@@ -72,7 +72,7 @@ function createTippyElements(options) {
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const aristotleId = element.dataset.aristotleConceptId;
-        let dynamicOptions = {
+        const dynamicOptions = {
             theme: options.theme,
             placement: options.placement,
             trigger: options.trigger,
@@ -108,7 +108,7 @@ function createTippyElements(options) {
             onHidden: function(instance) {
                 instance._see_more = false;
                 setHTMLContent(instance);
-            }
+            },
         };
         tippy(element, mergeObjects(staticOptions, dynamicOptions));
     }
@@ -257,7 +257,6 @@ function _toggleAristotleTooltipContent(instance) {
  *
  */
 export function addAristotle(options) {
-
     const defaultOptions = {
         'url': '',
         'definitionWords': 50,
@@ -268,7 +267,7 @@ export function addAristotle(options) {
         'externalLinkVisible': true,
     };
 
-    let mergedOptions = mergeObjects(defaultOptions, options);
+    const mergedOptions = mergeObjects(defaultOptions, options);
 
     createTippyElements(mergedOptions);
 }
