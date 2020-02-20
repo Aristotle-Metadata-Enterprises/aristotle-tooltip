@@ -57,6 +57,7 @@ function createTippyElements(options) {
     const staticOptions = {
         allowHTML: false, // For better security
         content: 'Loading...',
+        theme: 'light-border',
         flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
         interactive: true,  // Because content in tooltips are also "clickable".
         onCreate: function(instance) {
@@ -248,8 +249,6 @@ function _toggleAristotleTooltipContent(instance) {
  *
  *       placement - positioning of the tooltip. Defaults to 'bottom'.
  *
- *       theme - CSS theme used to style the Aristotle tooltip objects. Defaults to 'light-border' style.
- *
  *       trigger - Event used to trigger the tooltip. Defaults to 'mouseenter focus'.
  *
  *       externalLinkVisible - Whether or not to display the external item link page at the top of the tooltip.
@@ -263,7 +262,6 @@ export function addAristotle(options) {
         'definitionWords': 50,
         'longDefinitionWords': 75,
         'placement': 'bottom',
-        'theme': 'light-border',
         'trigger': 'mouseenter focus',
         'externalLinkVisible': true,
     };
