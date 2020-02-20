@@ -62,6 +62,8 @@ addAristotle(options);
 |-----------------|:----------:|----------------:|
 | `url`           |`registry.aristotlemetadata.com` | The **URL** of an Aristotle Metadata Registry.      |
 |-----------------+------------+-----------------|
+| `theme`         |`light-border style` | CSS theme used to style the Aristotle tooltip objects.   |
+|-----------------+------------+-----------------|
 | `definitionWords` |     50   | The number of words to display in the initial popup.   |
 |-----------------+------------+-----------------|
 | `longDefinitionWords` |     75   | The number of words to display when 'see more..' is pressed.     |
@@ -80,3 +82,8 @@ oscar@aristotle:~$ npm run build-dev
 
 ## Demo
 
+A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %} is known by the company they keep
+
+A <a data-aristotle-id="498427">person</a> is known by the company they keep
+
+{% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
