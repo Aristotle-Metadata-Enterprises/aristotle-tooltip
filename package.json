@@ -1,14 +1,13 @@
 {
   "name": "@aristotle-metadata-enterprises/aristotle_tooltip",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Aristotle Tooltip: add Aristotle functionality to any website!",
-  "main": "dist/aristotle_tooltip.js",
+  "main": "dist/aristotletooltip.min.js",
   "scripts": {
     "test": "karma start karma.conf.js --single-run",
     "lint": "eslint --ext .js ./src/",
     "build:dev": "webpack --config webpack.dev.js --watch",
-    "build": "webpack --config webpack.prod.js",
-    "build:lib": "webpack --config webpack.module.js"
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
