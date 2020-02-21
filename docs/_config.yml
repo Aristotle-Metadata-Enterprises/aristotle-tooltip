@@ -1,7 +1,10 @@
 title: Aristotle Tooltip
-description: A highly customisable and easy to use way to insert Aristotle powered definitions to your website.
+description: A highly customisable and easy to use way to insert Aristotle powered definitions to your website!
 theme: jekyll-theme-cayman
 kramdown:
   input: GFM
   auto_ids: true
   syntax_highlighter: rouge
+
+plugins:
+  - jemoji

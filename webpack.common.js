@@ -1,21 +1,20 @@
 const path = require('path');
 
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: './src/tooltip.js',
     plugins: [
-        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: 'tooltip.css'
         }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false
-        })
+        }),
+        new CleanWebpackPlugin(),
     ],
     module: {
         rules: [
@@ -42,9 +41,10 @@ module.exports = {
         ]
     },
     output: {
-        filename: "tooltip.js",
+        filename: "aristotletooltip.min.js",
         library: "aristotleTooltip",
+        libraryExport: 'default',
+        libraryTarget: "umd",
         path: path.resolve(__dirname, "dist"),
-
     },
 };

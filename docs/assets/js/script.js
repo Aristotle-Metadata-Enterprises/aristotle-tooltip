@@ -1,8 +1,7 @@
 
 const options = {
-  'url': 'https://registry.aristotlemetadata.com',
-  'definitionWords': 50,
-  'longDefinitionWords': 75,
-  'trigger': 'mouseenter focus',
+    'url': 'https://registry.aristotlemetadata.com',
+    'trigger': 'mouseenter focus',
 };
+
 aristotleTooltip.addAristotle(options);
