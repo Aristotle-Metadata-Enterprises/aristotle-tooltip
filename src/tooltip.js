@@ -28,7 +28,6 @@ function makeRequest(baseUrl, aristotleId) {
 
 function handleError(error) {
     let errorMsg = '';
-
     if (error.response) {
         //  The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -54,29 +53,24 @@ function createTippyElements(options) {
     // Select all elements that contain an aristotle id
     const elements = document.querySelectorAll('[data-aristotle-concept-id]');
 
-    const staticOptions = {
-        allowHTML: false, // For better security
-        content: 'Loading...',
-        duration: [275, 1250],
-        theme: 'light-border',
-        flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
-        interactive: true, // Because content in tooltips are also "clickable".
-        onCreate: function(instance) {
-            // Keep track of state
-            instance._isFetching = false;
-            instance._hasSucceeded = null;
-        },
-    };
-
-
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
         const aristotleId = element.dataset.aristotleConceptId;
-        const dynamicOptions = {
+        tippy(element, {
             theme: 'light-border',
             placement: options.placement,
             trigger: options.trigger,
+            allowHTML: false, // For better security
+            content: 'Loading...',
+            duration: [275, 1250],
+            flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
+            interactive: true, // Because content in tooltips are also "clickable".
+            onCreate: function(instance) {
+                // Keep track of state
+                instance._isFetching = false;
+                instance._hasSucceeded = null;
+            },
             onShow: function(instance) {
                 if (instance._isFetching || instance._hasSucceeded) {
                     return;
@@ -109,8 +103,7 @@ function createTippyElements(options) {
                 instance._see_more = false;
                 setHTMLContent(instance);
             },
-        };
-        tippy(element, mergeObjects(staticOptions, dynamicOptions));
+        });
     }
 }
 

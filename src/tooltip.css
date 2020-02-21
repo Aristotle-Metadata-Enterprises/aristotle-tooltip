@@ -1,16 +1,23 @@
-.see-more-link {
+.tippy-tooltip .see-more-link {
     /* Push the see more link right */
     text-align: right;
 }
 
-.aristotle-logo {
+.tippy-tooltip .aristotle-logo {
     vertical-align: middle;
 }
 
-.external-link {
+.tippy-tooltip .external-link {
     display: inline-block;
     width: 1em;
     height: 1em;
+}
+
+.tippy-tooltip hr {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .tippy-tooltip {
@@ -21,7 +28,7 @@
 
 @media (min-device-width: 480px) {
     .tippy-tooltip {
-        font-size: 0.8rem;
+        font-size: 0.9em;
     }
 
 }
