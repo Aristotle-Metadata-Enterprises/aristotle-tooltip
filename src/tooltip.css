@@ -26,6 +26,10 @@
    word-wrap: break-word;
 }
 
+.tippy-tooltip small {
+    font-size: 0.8em
+}
+
 @media (min-device-width: 480px) {
     .tippy-tooltip {
         font-size: 0.9em;
