@@ -4,11 +4,7 @@ title: Aristotle Tooltip Demo
 
 ## Demo
 
-[//]: <> A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="268955" %} is known by the company they keep
-
-<p align="center"> A <a data-aristotle-id="268955">person</a> is known by the company they keep </p>
-
-[//]: <> {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
+<p class="center-text"> A <a data-aristotle-id="268955">person</a> is known by the company they keep </p>
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
