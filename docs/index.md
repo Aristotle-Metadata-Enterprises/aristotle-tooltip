@@ -2,21 +2,13 @@
 title: Aristotle Tooltip Demo
 ---
 
-<div align="center">
-  <img alt="Aristotle Cloud Services Australia" src="https://brand.aristotlemetadata.com/images/pngs/base/base.256.png" height="117" />
-</div>
-<div align="center">
-  <h1>Aristotle Tooltip</h1>
-  <p>A highly customisable and easy to use way to insert Aristotle powered definitions to your website!</p>
-</div>
-
 ## Demo
 
-A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %} is known by the company they keep
+[//]: <> A {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="268955" %} is known by the company they keep
 
-A <a data-aristotle-id="498427">person</a> is known by the company they keep
+<p align="center"> A <a data-aristotle-id="268955">person</a> is known by the company they keep </p>
 
-{% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
+[//]: <> {% include button.html button_name="Person" button_class="btn-aristotle-demo" aristotle_id="498427" %}
 
 ## Features  
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
