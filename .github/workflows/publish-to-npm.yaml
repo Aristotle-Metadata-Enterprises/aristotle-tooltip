@@ -18,7 +18,6 @@ jobs:
           mkdir dist
           cd dist
           npm run build
-          npm run build:lib
       - name: Publish to NPM
         run: npm publish --access public
         env:
