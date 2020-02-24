@@ -74,7 +74,7 @@ function createTippyElements(options) {
                 if (instance._hasSucceeded && instance._see_more) {
                     // Reset back to minified when you leave
                     instance._see_more = false;
-                    setHTMLContent(instance)
+                    setHTMLContent(instance);
                 }
 
                 if (instance._isFetching || instance._hasSucceeded) {
