@@ -21,8 +21,7 @@ function makeRequest(baseUrl, aristotleId) {
      * @param {String} baseUrl - the Aristotle Metadata Registry to request
      * @param {Integer} aristotleId - the id of the concept to request
      */
-    baseUrl === undefined ? baseUrl = '' : null;
-    const url = baseUrl + '/api/v4/item/' + aristotleId;
+    const url = baseUrl + '/api/v4/item/' + aristotleId + '/';
     return axios.get(url);
 }
 
@@ -35,7 +34,7 @@ function handleError(error) {
 
         if (statusCode === 401 || statusCode === 403) {
             errorMsg = ('ERROR: This item is not publicly viewable');
-        } else if (String(statusCode).startsWith('5')) {
+        } else if (statusCode >= 500 && statusCode < 600) {
             // It's a 500 failure
             errorMsg = ('ERROR: The server is currently experiencing errors. Please try again later.');
         } else {
@@ -69,9 +68,15 @@ function createTippyElements(options) {
             onCreate: function(instance) {
                 // Keep track of state
                 instance._isFetching = false;
-                instance._hasSucceeded = null;
+                instance._hasSucceeded = false;
             },
             onShow: function(instance) {
+                if (instance._hasSucceeded && instance._see_more) {
+                    // Reset back to minified when you leave
+                    instance._see_more = false;
+                    setHTMLContent(instance)
+                }
+
                 if (instance._isFetching || instance._hasSucceeded) {
                     return;
                 }
@@ -98,10 +103,6 @@ function createTippyElements(options) {
                     instance.setContent(errorMsg);
                 });
                 instance._isFetching = false;
-            },
-            onHidden: function(instance) {
-                instance._see_more = false;
-                setHTMLContent(instance);
             },
         });
     }
@@ -141,8 +142,6 @@ function createTooltipBody(instance) {
     seeMoreLessLink.href = '#';
 
     if (instance._see_more) {
-        // seeMoreLessLink.appendChild(document.createTextNode('...see less'));
-
         let definitionText;
 
         if (instance.definition === '') {
