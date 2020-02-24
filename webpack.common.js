@@ -1,8 +1,11 @@
 const path = require('path');
 
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const fs = require('fs');
+
 
 module.exports = {
     entry: './src/tooltip.js',
@@ -15,6 +18,7 @@ module.exports = {
             openAnalyzer: false
         }),
         new CleanWebpackPlugin(),
+        new webpack.BannerPlugin(fs.readFileSync('./LICENSE', 'utf-8'))
     ],
     module: {
         rules: [

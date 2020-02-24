@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Aristotle-Metadata-Enterprises/aristotle-tooltip#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "license-banner-webpack-plugin": "^2.2.0",
     "tippy.js": "^5.2.0"
   },
   "devDependencies": {

@@ -70,3 +70,5 @@ oscar@aristotle:~$ npm install .
 oscar@aristotle:~$ npm run build-dev
 ```
 
+## IE11 Compatibility
+A Promise polyfill is required for IE11 compatibility. `aristotle-tooltip` has been tested with `core-js`.
