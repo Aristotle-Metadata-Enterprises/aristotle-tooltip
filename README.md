@@ -71,9 +71,9 @@ oscar@aristotle:~$ npm run build-dev
 ```
 
 ## IE11 Compatibility
-A Promise polyfill is required for IE11 compatibility.`aristotle-tooltip` has been tested to work with `es6-promise`.
+A Promise polyfill is required for IE11 compatibility.`aristotle-tooltip` has been tested to work with ![ES6 Promise](https://github.com/stefanpenner/es6-promise)
 
 ### ES6 Promise with a CDN
 ```html
-<script 
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script> 
 ```
