@@ -3,7 +3,10 @@
 }
 
 .aristotle-background {
-  color: #fff; text-align: center; background-color: #4E8382; background-image: linear-gradient(120deg, #155799, #7D7D7D);
+  color: #fff;
+  text-align: center;
+  background-color: #4E8382;
+  background-image: linear-gradient(120deg, #155799, #7D7D7D);
 }
 
 @media screen and (min-width: 64em) { .aristotle-background { padding: 5rem 6rem; } }
@@ -15,5 +18,13 @@ table {
 }
 
 .btn-aristotle-demo {
-  display: inline-block; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.7); background-color: rgba(97, 213, 85, 0.78); border-color: rgba(93, 155, 238, 0.2); border-style: solid; border-width: 1px; border-radius: 0.3rem; transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(97, 213, 85, 0.78);
+  border-color: rgba(93, 155, 238, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 }
