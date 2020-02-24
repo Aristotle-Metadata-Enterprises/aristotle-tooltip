@@ -21,7 +21,6 @@ function makeRequest(baseUrl, aristotleId) {
      * @param {String} baseUrl - the Aristotle Metadata Registry to request
      * @param {Integer} aristotleId - the id of the concept to request
      */
-    baseUrl === undefined ? baseUrl = '' : null;
     const url = baseUrl + '/api/v4/item/' + aristotleId + '/';
     return axios.get(url);
 }
