@@ -77,7 +77,7 @@ function createTippyElements(options) {
             content: 'Loading...',
             duration: [275, 1250],
             flipOnUpdate: true, // Because the tooltip changes sizes when the definition successfully loads
-            interactive: true, // Because content in tooltips are also "clickable".
+            interactive: options.interactive,
             onCreate: function(instance) {
                 // Keep track of state
                 instance._isFetching = false;
@@ -104,7 +104,7 @@ function createTippyElements(options) {
                     instance._see_more = false;
                     instance.externalLinkVisible = options.externalLinkVisible;
                     instance._hasSucceeded = true;
-                    setHTMLContent(instance);
+                    setHTMLContent(instance, options);
                 }).catch(function(error) {
                     // The response failed
                     const errorMsg = handleError(error);
@@ -117,11 +117,11 @@ function createTippyElements(options) {
     }
 }
 
-function setHTMLContent(instance) {
+function setHTMLContent(instance, options) {
     // Build and set the HTML content for the tooltip
     const wrapperDiv = document.createElement('div');
     wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink, instance.externalLinkVisible));
-    wrapperDiv.appendChild(createTooltipBody(instance));
+    wrapperDiv.appendChild(createTooltipBody(instance, options));
     wrapperDiv.appendChild(createTooltipFooter(instance.itemLink));
     instance.setContent(wrapperDiv);
 }
@@ -138,18 +138,31 @@ function createTooltipHeader(itemName, url, externalLinkVisible) {
     return wrapperDiv;
 }
 
-function createTooltipBody(instance) {
+function createTooltipBody(instance, options) {
     const wrapperDiv = document.createElement('div');
     const contentElementDiv = document.createElement('div');
-    const seeMoreDiv = document.createElement('div');
-    const seeMoreLessLink = document.createElement('a');
-    seeMoreLessLink.classList.add('see-more-link');
-    seeMoreLessLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        _toggleAristotleTooltipContent(instance);
-    });
-    seeMoreLessLink.href = '#';
 
+    // Whether to show a see more link
+    const displaySeeMore = (
+        options.interactive && instance.definition.length > instance.shortDefinition.length
+    );
+
+    // Setup see more link
+    const seeMoreDiv = document.createElement('div');
+    if (displaySeeMore) {
+        const seeMoreLessLink = document.createElement('a');
+        seeMoreLessLink.classList.add('see-more-link');
+        seeMoreLessLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            _toggleAristotleTooltipContent(instance, options);
+        });
+        seeMoreLessLink.href = '#';
+        seeMoreLessLink.appendChild(document.createTextNode('...see more'));
+        seeMoreDiv.appendChild(seeMoreLessLink);
+        seeMoreDiv.classList.add('see-more-link');
+    }
+
+    // If see more has been clicked
     if (instance._see_more) {
         let definitionText;
 
@@ -161,13 +174,12 @@ function createTooltipBody(instance) {
         contentElementDiv.appendChild(document.createTextNode(definitionText));
     } else {
         contentElementDiv.appendChild(document.createTextNode(instance.shortDefinition));
-        seeMoreLessLink.appendChild(document.createTextNode('...see more'));
     }
-    wrapperDiv.appendChild(contentElementDiv);
-    seeMoreDiv.appendChild(seeMoreLessLink);
-    seeMoreDiv.classList.add('see-more-link');
 
-    if (instance._hasSucceeded && instance.definition.length !== instance.shortDefinition.length) {
+    // Add content
+    wrapperDiv.appendChild(contentElementDiv);
+    // Add see more if we are displaying it and it hasnt already been clicked
+    if (displaySeeMore && !instance._see_more) {
         wrapperDiv.appendChild(seeMoreDiv);
     }
 
@@ -233,9 +245,9 @@ function createAristotleLogoHTMl() {
  * @param instance Aristotle Tooltip object instance.
  * @private
  */
-function _toggleAristotleTooltipContent(instance) {
+function _toggleAristotleTooltipContent(instance, options) {
     objectAttributeToggler(instance, '_see_more');
-    setHTMLContent(instance);
+    setHTMLContent(instance, options);
 }
 
 /**
@@ -257,6 +269,8 @@ function _toggleAristotleTooltipContent(instance) {
  *       externalLinkVisible - Whether or not to display the external item link page at the top of the tooltip.
  *             Defaults to 'true'.
  *
+ *       interactive - Whether interactive content such as links should be displayed
+ *
  */
 export default function addAristotle(options) {
     const defaultOptions = {
@@ -266,6 +280,7 @@ export default function addAristotle(options) {
         'placement': 'bottom',
         'trigger': 'mouseenter focus',
         'externalLinkVisible': true,
+        'interactive': true,
     };
 
     let finalOptions;
