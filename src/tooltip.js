@@ -48,6 +48,19 @@ function handleError(error) {
     return errorMsg;
 }
 
+/**
+ * Get plain text version of an items html definition
+ * @param htmlDefinition String html definition as returned by api
+ * @return String plain text defintion
+ */
+function getPlainTextDefinition(htmlDefinition) {
+    let definition = getTextUpToStringPattern(htmlDefinition, '<table>');
+    definition = getTextUpToStringPattern(definition, '<ul>');
+    definition = getTextUpToStringPattern(definition, '<ol>');
+    definition = stripHtmlTags(definition);
+    return definition;
+}
+
 function createTippyElements(options) {
     // Select all elements that contain an aristotle id
     const elements = document.querySelectorAll('[data-aristotle-concept-id]');
@@ -83,14 +96,10 @@ function createTippyElements(options) {
                 instance._isFetching = true;
                 makeRequest(options.url, aristotleId).then(function(response) {
                     // The response was successful
-                    let definition = response.data['definition'];
                     instance.name = response.data['name'];
-                    definition = getTextUpToStringPattern(definition, '<table>');
-                    definition = getTextUpToStringPattern(definition, '<ul>');
-                    definition = getTextUpToStringPattern(definition, '<ol>');
-                    definition = stripHtmlTags(definition);
+                    const definition = getPlainTextDefinition(response.data['definition']);
                     instance.definition = truncateText(definition, options.longDefinitionWords);
-                    instance.shortDefinition = response.data['short_definition'];
+                    instance.shortDefinition = truncateText(definition, options.definitionWords);
                     instance.itemLink = getItemLink(options.url, aristotleId);
                     instance._see_more = false;
                     instance.externalLinkVisible = options.externalLinkVisible;
