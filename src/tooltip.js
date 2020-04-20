@@ -258,5 +258,12 @@ export default function addAristotle(options) {
         'trigger': 'mouseenter focus',
         'externalLinkVisible': true,
     };
-    createTippyElements(mergeObjects(defaultOptions, options));
+
+    let finalOptions;
+    if (options) {
+        finalOptions = mergeObjects(defaultOptions, options);
+    } else {
+        finalOptions = defaultOptions;
+    }
+    createTippyElements(finalOptions);
 }
