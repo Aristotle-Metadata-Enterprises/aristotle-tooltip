@@ -251,7 +251,7 @@ function _toggleAristotleTooltipContent(instance) {
  */
 export default function addAristotle(options) {
     const defaultOptions = {
-        'url': '',
+        'url': 'https://registry.aristotlemetadata.com',
         'definitionWords': 50,
         'longDefinitionWords': 75,
         'placement': 'bottom',
