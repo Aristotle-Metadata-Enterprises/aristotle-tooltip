@@ -102,7 +102,6 @@ function createTippyElements(options) {
                     instance.shortDefinition = truncateText(definition, options.definitionWords);
                     instance.itemLink = getItemLink(options.url, aristotleId);
                     instance._see_more = false;
-                    instance.externalLinkVisible = options.externalLinkVisible;
                     instance._hasSucceeded = true;
                     setHTMLContent(instance, options);
                 }).catch(function(error) {
@@ -120,19 +119,19 @@ function createTippyElements(options) {
 function setHTMLContent(instance, options) {
     // Build and set the HTML content for the tooltip
     const wrapperDiv = document.createElement('div');
-    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink, instance.externalLinkVisible));
+    wrapperDiv.appendChild(createTooltipHeader(instance.name, instance.itemLink, options));
     wrapperDiv.appendChild(createTooltipBody(instance, options));
-    wrapperDiv.appendChild(createTooltipFooter(instance.itemLink));
+    wrapperDiv.appendChild(createTooltipFooter(instance.itemLink, options));
     instance.setContent(wrapperDiv);
 }
 
-function createTooltipHeader(itemName, url, externalLinkVisible) {
+function createTooltipHeader(itemName, url, options) {
     const wrapperDiv = document.createElement('div');
     const strongTag = document.createElement('strong');
-    const externalItemLink = createExternalItemLink(url);
     strongTag.appendChild(document.createTextNode(itemName + ' '));
     wrapperDiv.appendChild(strongTag);
-    if (externalLinkVisible) {
+    if (options.externalLinkVisible && options.interactive) {
+        const externalItemLink = createExternalItemLink(url);
         wrapperDiv.appendChild(externalItemLink);
     }
     return wrapperDiv;
@@ -186,12 +185,16 @@ function createTooltipBody(instance, options) {
     return wrapperDiv;
 }
 
-function createTooltipFooter(url) {
+function createTooltipFooter(url, options) {
     const wrapperDiv = document.createElement('div');
-    const footerTop = createFooterTop(url);
-    const footerBottom = createFooterBottom();
     wrapperDiv.appendChild(document.createElement('hr'));
-    wrapperDiv.appendChild(footerTop);
+
+    if (options.interactive) {
+        const footerTop = createFooterTop(url, options);
+        wrapperDiv.appendChild(footerTop);
+    }
+
+    const footerBottom = createFooterBottom();
     wrapperDiv.appendChild(footerBottom);
     return wrapperDiv;
 }
