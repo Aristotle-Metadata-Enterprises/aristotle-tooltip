@@ -12,7 +12,8 @@
 ## Features  
 
 - :heavy_check_mark: Adaptable: use any Aristotle Metadata Registry!
-- :globe_with_meridians: IE11+ Support: compatible with 99% of desktop and 98% of mobile users.
+- :globe_with_meridians: IE11+ Support [*][ie11-support] :
+    compatible with 99% of desktop and 98% of mobile users.
 - :mouse: Light: weighs just 60kb, including image assets.
 - :dog: Dogfooded: This library is used in our production Aristotle Registries. Updates guaranteed!
 
@@ -94,3 +95,5 @@ A Promise polyfill is required for IE11 compatibility.`aristotle-tooltip` has be
 ```html
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script> 
 ```
+
+[ie11-support]: #ie11-compatibility
