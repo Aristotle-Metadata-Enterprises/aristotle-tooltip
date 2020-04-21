@@ -6,6 +6,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const fs = require('fs');
 
+const info = require("./package.json")
+
 
 module.exports = {
     entry: './src/tooltip.js',
@@ -18,7 +20,10 @@ module.exports = {
             openAnalyzer: false
         }),
         new CleanWebpackPlugin(),
-        new webpack.BannerPlugin(fs.readFileSync('./LICENSE', 'utf-8'))
+        new webpack.BannerPlugin(() => {
+            let license = fs.readFileSync('./LICENSE', 'utf-8')
+            return `@preserve\n${info.name}, ${info.version}\n\n${license}`
+        }),
     ],
     module: {
         rules: [
