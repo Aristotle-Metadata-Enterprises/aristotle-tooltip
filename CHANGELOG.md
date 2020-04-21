@@ -10,3 +10,4 @@
 - Fix bug with definitionWords option
 - Improve documentation
 - Change to see more display to prevent showing less content
+- Fix horizontal rule styling
