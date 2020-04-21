@@ -37,7 +37,7 @@ In your application, import the `aristotle_tooltip` module, and the core css:
 import aristotleTooltip from '@aristotle-metadata-enterprises/aristotle_tooltip'
 import 'aristotle_tooltip/dist/tooltip.css'
 ```
-This assumes you're using a module bundler like Webpack, Rollup, or Parcel.
+This assumes you're using a module bundler like Webpack, Rollup or Parcel.
 
 ### CDN
 
@@ -45,7 +45,7 @@ This assumes you're using a module bundler like Webpack, Rollup, or Parcel.
 <script src="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/aristotletooltip.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aristotle-metadata-enterprises/aristotle_tooltip@latest/dist/tooltip.css">
 ```
-Place them at the very bottom of the `<body>`. They must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
+Place the script at the very bottom of the `<body>`. It must be placed before your own scripts, because of how the underlying Tippy.js library adds the tooltips.
 
 ### Usage
 
