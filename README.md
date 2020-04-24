@@ -71,6 +71,7 @@ aristotleTooltip(options);
 | Option        | Default           | Explanation  |
 | ------------- |:-------------:| -----:|
 | `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
+| `selector` | `document.body` | Element or selector for element to search for tooltips under |
 | `definitionWords`      | 50      |  The number of words to display in the initial popup  |
 | `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed |
 | `placement`            | `bottom`|  The positioning of the tooltip |
