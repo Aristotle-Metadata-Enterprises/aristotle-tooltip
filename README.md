@@ -69,14 +69,14 @@ aristotleTooltip(options);
 ## Options
 
 | Option        | Default           | Explanation  |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:| -----|
 | `url`      | `registry.aristotlemetadata.com` | The URL of an Aristotle Metadata Registry |
-| `selector` | `document.body` | Element or selector for element to search for tooltips under |
 | `definitionWords`      | 50      |  The number of words to display in the initial popup  |
 | `longDefinitionWords`  | 75      |  The number of words to display when 'see more..' is pressed |
 | `placement`            | `bottom`|  The positioning of the tooltip |
 | `trigger` | `mouseenter focus` | Events used to trigger the tooltip |
 | `externalLinkVisible`  | `true`  |  Whether to display an external link icon next to the name of the metadata item |
+| `selector` | `document.body` | Element or css selector for creating tooltips under, tooltips not under this element will be ignored |
 | `interactive` | `true` | Whether interactive content such as links should be displayed |
 
 ## Setting up a Development Environment
