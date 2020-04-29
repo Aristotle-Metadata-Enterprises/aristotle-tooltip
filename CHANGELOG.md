@@ -11,3 +11,7 @@
 - Improve documentation
 - Change to see more display to prevent showing less content
 - Fix horizontal rule styling
+
+## 1.2.0
+
+- Add selector option

@@ -61,9 +61,24 @@ function getPlainTextDefinition(htmlDefinition) {
     return definition;
 }
 
+// Get start node from selection
+// where selection can be a css selector string or a html element
+function getStartNode(selection) {
+    const type = typeof selection;
+    if (type === 'string') {
+        return document.querySelector(selection);
+    }
+    if (type === 'object' && selection instanceof Element) {
+        return selection;
+    }
+    console.log(`${selection} is not a valid selector`);
+    return document.body;
+}
+
 function createTippyElements(options) {
     // Select all elements that contain an aristotle id
-    const elements = document.querySelectorAll('[data-aristotle-concept-id]');
+    const root = getStartNode(options.selector);
+    const elements = root.querySelectorAll('[data-aristotle-concept-id]');
 
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let i = 0; i < elements.length; i++) {
@@ -257,6 +272,10 @@ function _toggleAristotleTooltipContent(instance, options) {
  * This is the main route through which users will interact with Aristotle Tooltip.
  * @param options Object containing the options available to configure the Aristotle tooltip.
  *
+ *       selector - Element or css selector for element to use as root when searching for tooltip elements
+ *                  Only element under this node with the data attribute will have tooltips enabled
+ *                  Defaults to the document body
+ *
  *       url - URL address used to fetch definitions from. If this option is omitted, it is assumed that we are
  *             referencing a concept retrieved from the current domain url.
  *
@@ -277,6 +296,7 @@ function _toggleAristotleTooltipContent(instance, options) {
  */
 export default function addAristotle(options) {
     const defaultOptions = {
+        'selector': document.body,
         'url': 'https://registry.aristotlemetadata.com',
         'definitionWords': 50,
         'longDefinitionWords': 75,
