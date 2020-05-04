@@ -83,7 +83,7 @@ function createTippyElements(options) {
     // Create a Tippy object for each element that has an attached aristotle id:
     for (let i = 0; i < elements.length; i++) {
         const element = elements[i];
-        const aristotleId = element.dataset.aristotleConceptId;
+        const aristotleId = element.getAttribute('data-aristotle-concept-id');
         tippy(element, {
             theme: 'light-border',
             placement: options.placement,
