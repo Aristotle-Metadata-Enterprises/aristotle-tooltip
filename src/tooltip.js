@@ -71,7 +71,7 @@ function getStartNode(selection) {
     if (type === 'object' && selection instanceof Element) {
         return selection;
     }
-    console.log(`${selection} is not a valid selector`);
+    console.log(selection.toString() + ' is not a valid selector');
     return document.body;
 }
 
