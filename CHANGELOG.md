@@ -15,3 +15,7 @@
 ## 1.2.0
 
 - Add selector option
+
+## 1.2.1
+
+- Fix ie compatibility issues with svg's and error display
