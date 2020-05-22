@@ -10,13 +10,14 @@ export function getItemLink(baseUrl, aristotleId) {
 
 /**
  * The purpose of this function is to remove html tags from a string using the browser inbuilt parser system.
+ * WARNING: The returned String of this function is not safe to be rendered. DO NOT use for rendered html content.
  * @param text: String object with html tags to be stripped.
  * @return {string} Stripped version of the string object.
  */
 export function stripHtmlTags(text) {
     const div = document.createElement('div');
     div.innerHTML = text;
-    return div.textContent.trim() || div.innerText.trim() || '';
+    return div.innerText.trim();
 }
 
 /**
