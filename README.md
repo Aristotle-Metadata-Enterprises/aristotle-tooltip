@@ -84,7 +84,7 @@ aristotleTooltip(options);
 We're an open source project that welcomes any new contributions. To setup a development environment, simply fork the repo, clone it locally, and from within the `aristotle-tooltip` project, run:
 ```console
 oscar@aristotle:~$ npm install
-oscar@aristotle:~$ npm run build-dev
+oscar@aristotle:~$ npm run build:dev
 ```
 
 ## IE11 Compatibility
