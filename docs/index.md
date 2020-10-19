@@ -4,7 +4,8 @@ title: Aristotle Tooltip Demo
 
 ## Demo
 
-<p class="center-text"> A <a data-aristotle-concept-id="268955">person</a> is known by the company they keep </p>
+<p class="center-text"> A <a data-aristotle-concept-id="268955">person</a> is known by the company they keep.</p>
+<small>Hint: hover over the word "person" above to show the tooltip.</small>
 
 ## Features  
 
