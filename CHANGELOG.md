@@ -1,8 +1,5 @@
 # Changelog
 
-# 1.2.1
-  - Updates dependencies
-
 ## 1.0.0
 
 - First public release
@@ -22,3 +19,7 @@
 ## 1.2.1
 
 - Fix ie compatibility issues with svg's and error display
+
+# 1.2.2
+
+  - Updates dependencies
