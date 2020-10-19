@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.1
+  - Updates dependencies
+
 ## 1.0.0
 
 - First public release
