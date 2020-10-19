@@ -49,9 +49,20 @@ Place the script at the very bottom of the `<body>`. It must be placed before yo
 
 ### Usage
 
-To add a tooltip for a piece of content on your webpage
+To add a tooltip for a piece of content on your webpage:
 ```html
 A <a href="#" data-aristotle-concept-id="498427">person</a> is known by the company they keep
+```
+
+Custom styling for Aristotle links can set by applying CSS rules that target [*attribute decorators*](https://www.w3.org/TR/selectors/#attribute-selectors):
+```css
+a[data-aristotle-concept-id] {
+  border-bottom: 1px dotted #155799;
+}
+a[data-aristotle-concept-id]:hover {
+  text-decoration: none;
+  border-bottom: 1px solid #155799;
+}
 ```
 
 ### Setup
