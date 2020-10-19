@@ -4,4 +4,4 @@ const options = {
     'trigger': 'mouseenter focus',
 };
 
-aristotleTooltip.addAristotle(options);
+aristotleTooltip(options);
