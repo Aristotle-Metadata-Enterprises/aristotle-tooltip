@@ -1,9 +1,20 @@
 # Changelog
 
+## 1.2.3
 
-## 1.0.0
+- Update axios dependency
 
-- First public release
+## 1.2.2
+
+- Updates dependencies
+
+## 1.2.1
+
+- Fix ie compatibility issues with svg's and error display
+
+## 1.2.0
+
+- Add selector option
 
 ## 1.1.0
 
@@ -13,14 +24,6 @@
 - Change to see more display to prevent showing less content
 - Fix horizontal rule styling
 
-## 1.2.0
+## 1.0.0
 
-- Add selector option
-
-## 1.2.1
-
-- Fix ie compatibility issues with svg's and error display
-
-
-## 1.2.2
-  - Updates dependencies
+- First public release
