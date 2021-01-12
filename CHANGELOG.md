@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Update axios dependency
+
 ## 1.2.2
 
 - Updates dependencies
