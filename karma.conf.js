@@ -13,12 +13,10 @@ module.exports = function (config) {
             ChromeHeadless: {
                 base: 'Chrome',
                 flags: [
-                    '--headless',
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
                     '--disable-web-security',
                     '--disable-features=VizDisplayCompositor',
-                    '--disable-gpu',
                 ],
             },
         },
@@ -64,10 +62,24 @@ module.exports = function (config) {
 
         webpack: {
             mode: 'development',
-            resolve: {
-                extensions: ['.js'],
+            module: {
+                rules: [
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env']
+                            }
+                        }
+                    }
+                ]
             },
-        },
+            resolve: {
+                extensions: ['.js']
+            }
+        }
         webpackMiddleware: {
             stats: 'errors-only'
         }
