@@ -4,7 +4,6 @@
 
 - Fixed js tests by adding no-sandbox tag to chromeheadless
 
-
 ## 1.2.3
 
 - Update axios dependency
