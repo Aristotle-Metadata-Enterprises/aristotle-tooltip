@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4
+
+- Bump activesupport from 6.0.6 to 6.0.6.1 in /docs  
+
 ## 1.2.3
 
 - Update axios dependency
