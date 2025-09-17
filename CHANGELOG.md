@@ -1,9 +1,13 @@
 # Changelog
 
+## 1.2.4
+
+- Fixed js tests by adding no-sandbox tag to chromeheadless
+
+
 ## 1.2.3
 
 - Update axios dependency
-- Fixed js tests by adding no-sandbox tag to chromeheadless
 
 ## 1.2.2
 
