@@ -79,7 +79,7 @@ module.exports = function (config) {
             resolve: {
                 extensions: ['.js']
             }
-        }
+        },
         webpackMiddleware: {
             stats: 'errors-only'
         }
