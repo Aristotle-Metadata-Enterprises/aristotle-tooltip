@@ -12,7 +12,7 @@ module.exports = function (config) {
         customLaunchers: {
             ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
-                flags: ['--no-sandbox', '--disable-web-security']
+                flags: ['--no-sandbox'],
             }
         },
         reporters: ['mocha'],
