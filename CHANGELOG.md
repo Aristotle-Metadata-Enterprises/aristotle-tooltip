@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.4
+
+- Fixed js tests by adding no-sandbox tag to chromeheadless
+- Bump activesupport from 6.0.6 to 6.0.6.1 in /docs  
+
 ## 1.2.3
 
 - Update axios dependency
