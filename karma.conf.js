@@ -8,12 +8,12 @@ module.exports = function (config) {
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['mocha'],
-        browsers: ['ChromeHeadless'],
+        browsers: ['ChromeHeadlessNoSandbox'],
         customLaunchers: {
-            ChromeHeadless: {
+            ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
-                flags: ['--no-sandbox', '--disable-web-security'],
-            },
+                flags: ['--no-sandbox', '--disable-web-security']
+            }
         },
         reporters: ['mocha'],
         mochaReporter: {
