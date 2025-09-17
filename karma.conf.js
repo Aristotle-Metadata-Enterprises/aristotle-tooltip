@@ -13,10 +13,12 @@ module.exports = function (config) {
             ChromeHeadless: {
                 base: 'Chrome',
                 flags: [
+                    '--headless',
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
                     '--disable-web-security',
                     '--disable-features=VizDisplayCompositor',
+                    '--disable-gpu',
                 ],
             },
         },
@@ -61,7 +63,10 @@ module.exports = function (config) {
         autoWatch: true,
 
         webpack: {
-            mode: 'development'
+            mode: 'development',
+            resolve: {
+                extensions: ['.js'],
+            },
         },
         webpackMiddleware: {
             stats: 'errors-only'
